@@ -1,0 +1,42 @@
+<!-- 轮播图-->
+<swiper class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" interval="4000" duration="1000" previous-margin="80rpx" next-margin="80rpx" circular bindchange="bindchange" style='height: {{swiperHeight}}rpx'>
+  <block wx:for="{{swiperList}}" wx:key="{{index}}">
+    <swiper-item>
+      <image bindtap='toswiper' src="{{item.imageUrl}}" class="slide-image {{swiperIndex == index ? 'active' : 'quiet'}}" mode='aspectFill'></image>
+    </swiper-item>
+  </block>
+</swiper>
+<view class="solid">
+
+  <!-- 导航栏-->
+  <scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}">
+    <view class="cu-item {{null==TabCur?'text-blue cur':'text-grey'}} cu-btn round linebordersize   " bindtap="tabSelect">
+      全部
+    </view>
+    <view class="cu-item {{item.id==TabCur?'text-blue cur':'text-grey'}} cu-btn  round linebordersize  " wx:for="{{problemType}}" wx:key bindtap="tabSelect" data-id="{{item.id}}">
+      {{item.name}}
+    </view>
+  </scroll-view>
+
+  <!-- 任务列表 -->
+  <view class="cu-card article">
+    <navigator wx:for="{{taskList}}" wx:key class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}"'>
+
+      <view class="content">
+        <image src="{{item.imageUrl}}" mode="aspectFill"></image>
+        <view class="desc">
+          <view class="text-bold text-content1 box">{{item.describe}}</view>
+          <view class='text-content text-cut box'>{{item.addr}}</view>
+          <view>
+            <view class='cu-tag bg-grey light sm round'>{{item.findTime}}
+            </view>
+          </view>
+        </view>
+      </view>
+    </navigator>
+  </view>
+
+</view>
+<view class="imagesize {{isNull=='true'?'show':'hide'}}">
+  <image src='/images/null.png' mode='scaleToFill' style='height:100%;width:100%'></image>
+</view>

@@ -1,0 +1,2 @@
+
+    <button class="cu-btn bg-blue  margin-sm basis-sm shadow animation-{{name}}" bindtap="toggle" data-class="{{name}}">点我试试老弟{{name}}</button>

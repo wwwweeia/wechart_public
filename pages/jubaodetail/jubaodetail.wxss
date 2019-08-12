@@ -1,0 +1,105 @@
+  .tower-swiper .tower-item {
+    transform: scale(calc(0.5 + var(--index) / 10));
+    margin-left: calc(var(--left) * 100rpx - 150rpx);
+    z-index: var(--index);
+  }
+  .other-list {
+  margin-top: 10rpx;
+}
+
+.item-other {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+
+}
+
+.other-img-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+
+}
+
+.other-img-wrap image {
+  width: 90%;
+  border-radius: 15rpx;
+
+
+}
+
+.other-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 60%;
+}
+
+.other-title {
+  font-size: 30rpx;
+  color: #e06f93;
+  flex-direction: column;
+
+}
+
+.other-detail {
+  font-size: 26rpx;
+  color: #666;
+  flex-direction: column;
+}
+
+.comment-wrap {
+  margin-top: 10rpx;
+}
+
+.comment-title {
+  padding: 10rpx;
+  font-size: 28rpx;
+}
+.padding{
+  padding:5rpx;
+  margin: 0;
+  margin-bottom: 20rpx;
+}
+.imagesize{
+ display:flex;
+ height: 1400rpx;              
+ justify-content: center;
+ align-items:center;
+}
+.imagesize image { 
+  width:100%;
+  }
+.hide{
+  display: none
+}
+.show{
+  display: block
+}
+
+.cu-card.article {
+  display: block;
+}
+.cu-card.article>.cu-item {
+  padding-top: 30rpx;
+}
+.cu-card.article>.cu-item .content {
+  display: flex;
+  padding: 0 30rpx;
+}
+.cu-card.article>.cu-item .content>image {
+  width: 240rpx;
+  margin-right: 20rpx;
+  border-radius: 6rpx;
+}
+.cu-card.article>.cu-item .content .text-content {
+  font-size: 28rpx;
+  color: #888;
+  height: 2em;
+  overflow: hidden;
+}
+.cu-card.article>.cu-item .content .text-content1 {
+  font-size: 30rpx;
+  height: 1.5em;
+}

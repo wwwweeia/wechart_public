@@ -1,0 +1,92 @@
+	.tower-swiper .tower-item {
+		transform: scale(calc(0.5 + var(--index) / 10));
+		margin-left: calc(var(--left) * 100rpx - 150rpx);
+		z-index: var(--index);
+	}
+  .other-list {
+  margin-top: 10rpx;
+}
+
+.item-other {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.other-img-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+
+.other-img-wrap image {
+  width: 90%;
+  border-radius: 15rpx;
+}
+
+.other-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 60%;
+}
+
+.other-title {
+  font-size: 30rpx;
+  color: #e06f93;
+  flex-direction: column;
+
+}
+
+.other-detail {
+  font-size: 26rpx;
+  color: #666;
+  flex-direction: column;
+}
+
+.comment-wrap {
+  margin-top: 10rpx;
+}
+
+.comment-title {
+  padding: 10rpx;
+  font-size: 28rpx;
+}
+.cu-timeline>.cu-item>.content {
+  padding: 15rpx;
+  border-radius: 6rpx;
+  display: block;
+}
+.cu-timeline>.cu-item>.content:not([class*="bg-"]) {
+ 
+  color: var(--black);
+}
+
+
+.cu-bar-neirong {
+  display: flex;
+  position: relative;
+  align-items: center;
+  min-height: 100rpx;
+  /*justify-content: space-between;*/
+}
+.padding-neirong {
+  padding: 10rpx;
+
+}
+.text-center {
+text-align: left;
+
+}
+
+.padding2 {
+  padding: 10rpx;
+  min-height: 70rpx;
+
+}
+
+.imgeaaa{
+margin: 10rpx;
+margin-top: 20rpx;
+}
