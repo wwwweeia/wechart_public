@@ -1,5 +1,5 @@
 <!-- 街道部分 -->
-
+<!-- 
 <view class="cu-bar  solid-bottom " >
   <view class="action">
     <text class="cuIcon-title text-blue"></text>{{retObj.deptName}}
@@ -22,7 +22,7 @@
       <text class="text-grey">服务区域</text>　{{retObj.deptServiceArea}}
 </view>
 </view>
-
+ -->
 
 
 <!-- 举报分类 -->

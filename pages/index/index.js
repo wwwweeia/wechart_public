@@ -1,8 +1,8 @@
 Page({
 
   data: {
-     swiperIndex: 0, //初始化swiper索引
-     swiperHeight: 350,
+    swiperIndex: 0, //初始化swiper索引
+    swiperHeight: 350,
     // 问题栏默认值
     TabCur: null,
     // 轮播图数据
@@ -28,20 +28,21 @@ Page({
     this.getProblemType();
     //默认第一次加载任务列表（全部）
     this.getTaskListAll();
+    console.log("测试一下")
 
   },
 
   bindchange(e) {
-      this.setData({
-        swiperIndex: e.detail.current
-      })
-    },
-    toswiper:function(){
-      var swiperIndex = this.data.swiperIndex;
-       wx.navigateTo({
-      url:"../swiper/swiper?id="+swiperIndex
+    this.setData({
+      swiperIndex: e.detail.current
     })
-    },
+  },
+  toswiper: function() {
+    var swiperIndex = this.data.swiperIndex;
+    wx.navigateTo({
+      url: "../swiper/swiper?id=" + swiperIndex
+    })
+  },
   /**
    * 获取轮播图数据
    */
@@ -49,7 +50,8 @@ Page({
 
     let that = this;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchViewPages",
+      // url: "http://221.216.95.200:8285/home/manage/searchViewPages",
+      url: "http://192.168.15.146:8080/home/manage/searchViewPages",
       success(res) {
         // console.log(res);
         if (res.data.status === "success") {
@@ -68,7 +70,8 @@ Page({
   getProblemType() {
     let that = this;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      url:'http://192.168.15.146:8080/home/manage/searchQuestionSorts',
       success(res) {
         // console.log(res);
         if (res.data.status === "success") {
@@ -96,6 +99,7 @@ Page({
       })
     } else {
       this.setData({
+        taskList: [],
         TabCur: null,
       })
     }
@@ -120,7 +124,9 @@ Page({
     var that = this;
     //console.log(e);
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+
+      // url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "sortId": e,
         "page": that.data.pagenum,
@@ -148,7 +154,8 @@ Page({
   getTaskListAll: function() {
     var that = this;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      // url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "page": that.data.pagenum,
       },
@@ -163,13 +170,15 @@ Page({
             maxPageNum: res.data.retObj[0].maxPageNum,
             isNull: '',
           })
-        }else{
+        } else {
           isNull: 'true'
         }
         // 隐藏加载框
         wx.hideLoading();
       },
-      fail: function(err) {console.log('gg')}, //请求失败
+      fail: function(err) {
+        console.log('gg')
+      }, //请求失败
       complete: function() {} //请求完成后执行的函数
     })
 

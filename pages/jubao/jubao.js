@@ -1,20 +1,14 @@
-//index.js
-var QQMapWX = require('../../utils/qqmap-wx-jssdk.js');
+const QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
+let qqmapsdk;
 //获取应用实例
 const app = getApp()
 Page({
   data: {
-    longitude: 113.324520,
-    latitude: 23.099994,
-    markers: [{
-      id: 0,
-      iconPath: "../../images/icon_cur_position.png",
-      latitude: 23.099994,
-      longitude: 113.324520,
-      width: 50,
-      height: 50
-    }],
-    address: '',
+    address: "正在获取地址...",
+    longitude: 116.397452,
+    latitude: 39.909042,
+    key: 'W4WBZ-TUD65-IDAIR-QPM36-HMFQ5-CGBZP',
+
     //框架属性
     CustomBar: app.globalData.CustomBar,
     //分类显示判断标志
@@ -58,28 +52,21 @@ Page({
     //失败个数
     fail: 0,
     //openid
-    openid:''
-  },
-  regionchange(e) {
-    console.log(e.type)
-  },
-  markertap(e) {
-    console.log(e.markerId)
-  },
-  controltap(e) {
-    console.log(e.controlId)
+    openid: ''
   },
 
-  /**
+
+/**
    * 获取问题类型数据
    */
   getProblemType() {
     let that = this;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
-      //url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
+      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
       success(res) {
         if (res.data.httpStatusCode === 200) {
+          console.log("进来了")
           for (let i = 0; i < res.data.retObj.length; i++) {
             i.checked == false;
           }
@@ -91,83 +78,81 @@ Page({
     })
   },
 
-  onLoad() {
-    var vm = this;
-    wx.getSetting({
-      success(res) {
-        // 1. scope.userLocation 为真， 代表用户已经授权
-        if (res.authSetting['scope.userLocation']) {
-          //获取用户定位信息
-          // 1.1 使用 getlocation 获取用户 经纬度位置
-          wx.getLocation({
-            type: "wgs84",
-            success: function(res) {
-              var latitude = res.latitude;
-              var longitude = res.longitude;
-              //console.log(res.latitude);
-              vm.setData({
-                latitude: res.latitude,
-                longitude: res.longitude,
-                markers: [{
-                  latitude: res.latitude,
-                  longitude: res.longitude
-                }]
-              })
-              // 1.3 将获取到的 经纬度传值给 getAddress 解析出 具体的地址
-              vm.getAddress(res.latitude, res.longitude)
-            }
-          })
-        } else {
-          //重新询问用户获取授权
-          wx.authorize({
-            scope: 'scope.userLocation',
-            success(res) {
-              // 1.1 使用 getlocation 获取用户 经纬度位置
-              wx.getLocation({
-                type: "wgs84",
-                success: function(res) {
-                  var latitude = res.latitude;
-                  var longitude = res.longitude;
-                  //console.log(res.latitude);
-                  vm.setData({
-                    latitude: res.latitude,
-                    longitude: res.longitude,
-                    markers: [{
-                      latitude: res.latitude,
-                      longitude: res.longitude
-                    }]
-                  })
-                  // 1.3 将获取到的 经纬度传值给 getAddress 解析出 具体的地址
-                  vm.getAddress(res.latitude, res.longitude)
-                }
-              })
-            }
-          })
-        }
-      }
-    })
-    vm.getProblemType()
+  /**
+   * 生命周期函数--监听页面加载
+   */
+   onLoad: function (options) {
+
+    qqmapsdk = new QQMapWX({
+      key: this.data.key
+    });
+    this.currentLocation();
+    this.getProblemType();
   },
-  getAddress(latitude, longitude) {
-    let that = this;
-    let qqmapsdk = new QQMapWX({
-      key: '6RTBZ-QZG6I-24YGG-5WOEG-DRABK-G3BK5'
-    })
-    // reverseGeocoder 为 QQMapWX 解析 经纬度的方法
+
+
+  radioChange: function(e) {
+    console.log('radio发生change事件，携带value值为：', e.detail.value)
+  },
+
+ 
+  regionchange(e) {
+    // 地图发生变化的时候，获取中间点，也就是cover-image指定的位置
+    if (e.type == 'end' && (e.causedBy == 'scale' || e.causedBy == 'drag')) {
+      this.setData({
+        address: "正在获取地址..."
+      })
+      this.mapCtx = wx.createMapContext("maps");
+      this.mapCtx.getCenterLocation({
+        type: 'gcj02',
+        success: (res) => {
+          //console.log(res)
+          this.setData({
+            latitude: res.latitude,
+            longitude: res.longitude
+          })
+          this.getAddress(res.longitude, res.latitude);
+        }
+      })
+    }
+  },
+  getAddress: function(lng, lat) {
+    //根据经纬度获取地址信息
     qqmapsdk.reverseGeocoder({
       location: {
-        latitude,
-        longitude
+        latitude: lat,
+        longitude: lng
       },
-      sig: '7xiMOUDA3gBd2zwT3zVrW22TfLYufBo',
-      success(res) {
-        //console.log('success', res)
-        that.setData({
-          address: res.result.address
+      success: (res) => {
+        console.log(res)
+        console.log(res.result.formatted_addresses.recommend)
+        this.setData({
+          address: res.result.formatted_addresses.recommend //res.result.address
+        })
+      },
+      fail: (res) => {
+        this.setData({
+          address: "获取位置信息失败"
         })
       }
     })
   },
+  currentLocation() {
+    //当前位置
+    const that = this;
+    wx.getLocation({
+      type: 'gcj02',
+      success(res) {
+        that.setData({
+          latitude: res.latitude,
+          longitude: res.longitude
+        })
+        that.getAddress(res.longitude, res.latitude);
+      }
+    })
+  },
+
+
   takePhoto() {
     this.ctx.takePhoto({
       quality: 'high',
@@ -284,7 +269,7 @@ Page({
             })
           }
         },
-        
+
       });
     } else {
       wx.chooseImage({
@@ -442,13 +427,13 @@ Page({
               addslength: this.data.addslength - 1
             })
           }
-        
+
         }
       }
     })
   },
   textareaAInput(e) {
-  
+
     this.data.desc = e.detail.value;
   },
   hideModal(e) {
@@ -485,17 +470,17 @@ Page({
       openid: openid
     })
     var openid = that.data.openid;
-    console.log("普通资源携带的openid:？",openid);
+    console.log("普通资源携带的openid:？", openid);
 
-    if (qustionSort.length < 1) {
-      wx.showToast({
-        title: '请选择问题类型',
-        icon: 'none',
-        duration: 1000,
-        mask: true
-      })
-      return
-    }
+    // if (qustionSort.length < 1) {
+    //   wx.showToast({
+    //     title: '请选择问题类型',
+    //     icon: 'none',
+    //     duration: 1000,
+    //     mask: true
+    //   })
+    //   return
+    // }
     if ((reportImg.length + reportVideo.length) < 1) {
       wx.showToast({
         title: '请拍摄举报图片/视频',
@@ -531,14 +516,14 @@ Page({
     sortIds = sortIds.substring(0, sortIds.length - 1)
     //发送请求到后台，存储：经纬度、地址、描述、问题ID 
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/createAnswer",
+      url: "http://192.168.15.146:8080/home/manage/createAnswer",
       data: {
         "longitude": longitude,
         "latitude": latitude,
         "address": address,
         "desc": desc,
         "qustionSort": sortIds,
-        "openid":openid,
+        "openid": openid,
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -630,13 +615,14 @@ Page({
     var success = that.data.success;
     var fail = that.data.fail;
     var openid = that.data.openid;
-    console.log("图片资源携带的openid:？",openid);
+    console.log("图片资源携带的openid:？", openid);
 
     //上传举报图片
     wx.uploadFile({
       // 192.168.15.193:8199
-       url: 'http://221.216.95.200:8285/home/manage/upload',
-     // url: 'http://192.168.15.67:8080/home/manage/upload',
+      //  url: 'http://221.216.95.200:8285/home/manage/upload',
+
+      url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: reportImg[i],
       name: 'reportImg' + i + openid,
       formData: {
@@ -646,8 +632,8 @@ Page({
       },
       success(res) {
         // 操作成功
-         setTimeout(function() {
-         wx.hideLoading()
+        setTimeout(function() {
+          wx.hideLoading()
         }, 1000)
 
         success++;
@@ -686,7 +672,7 @@ Page({
 
 
     wx.uploadFile({
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: addsImg[i],
       name: 'addsImg' + i + openid,
       formData: {
@@ -732,7 +718,7 @@ Page({
     var openid = that.data.openid;
 
     wx.uploadFile({
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: reportVideo[i].src,
       name: 'reportVideo' + i + openid,
       formData: {
@@ -780,7 +766,7 @@ Page({
     var openid = that.data.openid;
 
     wx.uploadFile({
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: addsVideo[i].src,
       name: 'addsVideo' + i + openid,
       formData: {

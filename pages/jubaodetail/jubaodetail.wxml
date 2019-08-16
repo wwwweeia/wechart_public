@@ -7,7 +7,8 @@
 </scroll-view>
 <!-- 待审核、已退回任务列表 -->
  <view class="cu-card article">
-    <navigator wx:for="{{backList}}" wx:key class="cu-item shadow" url='../back/back?id={{item.answerId}}'>
+ <!-- 这里finishList代表已退回、待审核数据。和字面意思相反 -->
+    <navigator wx:for="{{finishList}}" wx:key class="cu-item shadow" url='../back/back?id={{item.answerId}}'>
 
       <view class="content">
         <image src="{{item.imageUrl}}" mode="aspectFill"></image>
@@ -25,7 +26,8 @@
 
 <!-- 处理中、已完成任务列表 -->
  <view class="cu-card article">
-    <navigator wx:for="{{finishList}}" wx:key class="cu-item shadow" url='../finish/finish?id={{item.taskId}}'>
+ <!-- 这里backList代表处理中、已完成数据。和字面意思相反 -->
+    <navigator wx:for="{{backList}}" wx:key class="cu-item shadow" url='../finish/finish?id={{item.taskId}}'>
 
       <view class="content">
         <image src="{{item.imageUrl}}" mode="aspectFill"></image>

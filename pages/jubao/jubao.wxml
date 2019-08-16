@@ -1,4 +1,4 @@
-<view class="cu-bar  solid-bottom">
+<!-- <view class="cu-bar  solid-bottom">
   <view class="action">
     <text class="cuIcon-title text-blue"></text>您的位置
   </view>
@@ -8,7 +8,34 @@
 </view>
 <view class="padding bg-white">
   <view class="text-cut padding bg-grey radius" style="width:100%">{{address}}</view>
+</view> -->
+<!-- 地图 -->
+<view class="container padding bg-white " hover-stop-propagation="false" hover-class="none">
+  <!-- 地图控件 -->
+  <map id="maps" longitude="{{longitude}}" latitude="{{latitude}}" scale="16" show-location bindregionchange="regionchange">
+    <cover-image class="cover-image" src="../../images/location.png" />
+  </map>
+ 
+  
 </view>
+
+<!-- 地址定位 -->
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>地址定位
+  </view>
+   <view class="action">
+    <button class="cu-btn bg-green shadow" catchtap="currentLocation">定位异常</button>
+  </view>
+</view>
+
+<view class="cu-form-group  bg-white">
+  <input class="weui-input" value="{{address}}" />
+</view>
+
+
+
+
 <view class="cu-bar  solid-bottom">
   <view class="action">
     <text class="cuIcon-title text-blue"></text>举报问题分类
@@ -22,6 +49,21 @@
     <view class="flex flex-wrap">
       <view class="padding-xs" wx:for="{{showProblemType}}" wx:key wx:if="{{item.name!='gray'}}">
         <view class="cu-tag bg-blue {{item.checked==true?'show':'hide'}}">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-modal bottom-modal {{modalName=='ChooseModal'?'show':''}}" bindtap="hideModal">
+  <view class="cu-dialog" catchtap>
+    <view class="cu-bar bg-white">
+      <view class="action text-blue" bindtap="problemTypeCancel">全部取消</view>
+      <view class="action text-green" bindtap="problemTypeConfirm">确定</view>
+    </view>
+    <view class="grid col-3 padding-sm">
+      <view wx:for="{{problemType}}" class="padding-xs" wx:key="{{index}}">
+        <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" bindtap="ChooseCheckbox" data-value="{{item.id}}"> <view class="box">{{item.name}}1</view>
+          <view class="cu-tag sm round {{item.checked?'bg-white text-orange':'bg-orange'}}" wx:if="{{item.hot}}">HOT</view>
+        </button>
       </view>
     </view>
   </view>

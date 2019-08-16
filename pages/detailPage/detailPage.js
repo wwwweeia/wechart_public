@@ -73,7 +73,7 @@ Page({
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskInfo?taskId=20",
+      url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=1",
       success(res) {
         if (res.data.status === "success") {
 

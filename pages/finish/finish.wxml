@@ -1,5 +1,5 @@
 <!-- 街道部分 -->
-
+<!-- 
 <view class="cu-bar  solid-bottom " >
   <view class="action">
     <text class="cuIcon-title text-blue"></text>{{retObj.deptName}}
@@ -21,7 +21,7 @@
   <view class="action text-black text-center ">
       <text class="text-grey">服务区域</text>　{{retObj.deptServiceArea}}
 </view>
-</view>
+</view> -->
 
 
 

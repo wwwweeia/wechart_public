@@ -2,9 +2,9 @@ Page({
 
   data: {
     tab:[
-     '已退回',"待审核",'处理中',"已完成"
+     '已完成',"处理中",'已退回',"待审核"
     ],
-    // 问题栏默认值，0 已退回   1待审核  2处理中  3处理完成
+    // 问题栏默认值，0-已完成 1-处理中 2-已退回 3-待审核
     TabCur: 0,
     //任务列表初始页（默认1）
     pagenum: 1,
@@ -84,7 +84,7 @@ Page({
     var that = this;
     wx.request({
      // url: "http://192.168.15.193:8199/home/manage/searchTaskList",
-       url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+       url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "status": e,
          "page": that.data.pagenum,
@@ -116,7 +116,7 @@ Page({
     var that = this;
     wx.request({
       // url: "http://192.168.15.193:8199/home/manage/searchTaskList",
-       url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+       url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "status": e,
         "page": that.data.pagenum,
