@@ -77,9 +77,9 @@ page{
   margin-right: 20rpx;
 }
 
-.orange {
+/*.orange {
   background: #ff7900 !important;
-}
+}*/
 
 .info {
   display: flex;

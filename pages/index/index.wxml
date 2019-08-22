@@ -2,7 +2,7 @@
 <swiper class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" interval="4000" duration="1000" previous-margin="80rpx" next-margin="80rpx" circular bindchange="bindchange" style='height: {{swiperHeight}}rpx'>
   <block wx:for="{{swiperList}}" wx:key="{{index}}">
     <swiper-item>
-      <image bindtap='toswiper' src="{{item.imageUrl}}" class="slide-image {{swiperIndex == index ? 'active' : 'quiet'}}" mode='aspectFill'></image>
+      <image bindtap='toswiper' src="{{item.imageUrl}}" data-id="{{item.id}}" class="slide-image {{swiperIndex == index ? 'active' : 'quiet'}}" mode='aspectFill'></image>
     </swiper-item>
   </block>
 </swiper>
@@ -20,7 +20,7 @@
 
   <!-- 任务列表 -->
   <view class="cu-card article">
-    <navigator wx:for="{{taskList}}" wx:key class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}"'>
+    <navigator wx:for="{{taskList}}" wx:key class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}'>
 
       <view class="content">
         <image src="{{item.imageUrl}}" mode="aspectFill"></image>

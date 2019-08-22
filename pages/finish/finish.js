@@ -21,7 +21,7 @@ Page({
     imgSrc: [],
     //任务进度视频
     videoSrc: [],
-  //判断任务进度颜色
+    //判断任务进度颜色
     length: ''
 
   },
@@ -33,12 +33,8 @@ Page({
   onLoad: function(taskId) {
     var that = this;
     var id = taskId.id;
-    that.setData({
-      taskId: id
-    })
-    // console.log("这是成功详情Id:",taskId.id);
-    //获取数据
-    that.detail();
+    console.log("id是：", id)
+    that.detail(id);
 
   },
   ViewImageForreport(e) {
@@ -67,34 +63,35 @@ Page({
   },
 
   //发送请求获取数据
-  detail: function() {
+  detail: function(id) {
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/searchTaskInfo",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskInfo",
+      // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo",
       data: {
-        taskId: that.data.taskId
+        taskId: id
       },
       success(res) {
         if (res.data.status === "success") {
 
           that.setData({
 
-              retObj: res.data.retObj,
-              //问题分类
-              sort: res.data.retObj.questionSorts,
-              //举报图片
-              reportImgSrc: res.data.retObj.reportImgSrc,
-              //举报视频
-              reportVideoSrc: res.data.retObj.reportVideoSrc,
-              //地址图片
-              addstImgSrc: res.data.retObj.addstImgSrc,
-              //地址视频
-              addsVideoSrc: res.data.retObj.addsVideoSrc,
-              taskRecord: res.data.retObj.taskRecord,
-              length: res.data.retObj.taskRecord.length
-            })
+            retObj: res.data.retObj,
+            //问题分类
+            sort: res.data.retObj.questionSorts,
+            //举报图片
+            reportImgSrc: res.data.retObj.reportImgSrc,
+            //举报视频
+            reportVideoSrc: res.data.retObj.reportVideoSrc,
+            //地址图片
+            addstImgSrc: res.data.retObj.addstImgSrc,
+            //地址视频
+            addsVideoSrc: res.data.retObj.addsVideoSrc,
+            taskRecord: res.data.retObj.taskRecord,
+            length: res.data.retObj.taskRecord.length
+          })
         }
 
       },
@@ -105,7 +102,7 @@ Page({
         // console.log("这是进度资源：", that.data.taskRecord)
         // console.log("这是进度资源长度：", that.data.taskRecord.length)
 
-          }
-      })
+      }
+    })
   }
 })

@@ -57,13 +57,13 @@ Page({
 
 
   /**
-     * 获取问题类型数据
-     */
+   * 获取问题类型数据
+   */
   getProblemType() {
     let that = this;
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
-      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      // url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
+      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
       success(res) {
         if (res.data.httpStatusCode === 200) {
           console.log("进来了")
@@ -81,7 +81,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.thisWhy()
   },
   // onLoad(options) {
@@ -94,16 +94,16 @@ Page({
   //   this.thisWhy()
   // },
 
-  thisWhy: function () {
+  thisWhy: function() {
     console.log("这是测试方法")
   },
 
 
-  radioChange: function (e) {
+  radioChange: function(e) {
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
 
-  onLoad: function (options) {
+  onLoad: function(options) {
     qqmapsdk = new QQMapWX({
       key: this.data.key
     });

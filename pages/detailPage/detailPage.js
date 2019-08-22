@@ -1,8 +1,8 @@
 Page({
   data: {
     icon: ['locationfill'],
-    //任务ID
-    taskId: '',
+    // //任务ID
+    // taskId: '',
     //资源
     retObj: [],
     //举报分类
@@ -31,15 +31,11 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (taskId) {
+  onLoad: function(taskId) {
     var that = this;
     var id = taskId.id;
-    that.setData({
-      taskId: id
-    })
-    //console.log("这是任务详情Id:",taskId.id);
     //获取数据
-    that.detail();
+    that.detail(id);
 
   },
   ViewImageForreport(e) {
@@ -68,12 +64,14 @@ Page({
   },
 
   //发送请求获取数据
-  detail: function () {
+  detail: function(id) {
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
+    console.log("这是咋回事：", id)
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=1",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskInfo?taskId=" + id,
+      // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=" + id,
       success(res) {
         if (res.data.status === "success") {
 
@@ -104,21 +102,12 @@ Page({
 
       },
       //请求失败
-      fail: function (err) { },
+      fail: function(err) {},
       //请求完成后执行的函数
-      complete: function () {
+      complete: function() {
         // console.log("这是进度资源：", that.data.taskRecord)
         // console.log("这是进度资源长度：", that.data.taskRecord.length)
-
-
-
-
-
-
       }
-
-
     })
   }
-
 })

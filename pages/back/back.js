@@ -31,12 +31,9 @@ Page({
   onLoad: function(answerId) {
     var that = this;
     var id = answerId.id;
-    that.setData({
-      answerId: id
-    })
-    // console.log("这是失败详情答案Id:",answerId.id);
+    console.log("id是:", id)
     //获取数据
-    that.detail();
+    that.detail(id);
 
   },
   ViewImageForreport(e) {
@@ -65,14 +62,15 @@ Page({
   },
 
   //发送请求获取数据
-  detail: function() {
+  detail: function(id) {
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/searchAnswerInfo",
-      data:{
-          answerId:that.data.answerId
+      // url: "http://192.168.15.146:8080/home/manage/searchAnswerInfo",
+      url: "http://221.216.95.200:8285/home/manage/searchAnswerInfo",
+      data: {
+        answerId: id
       },
       success(res) {
         // console.log("这是失败返回的数据：",res);
@@ -80,21 +78,21 @@ Page({
 
           that.setData({
 
-              retObj: res.data.retObj,
-              //问题分类
-              sort: res.data.retObj.questionSorts,
-              //举报图片
-              reportImgSrc: res.data.retObj.reportImgSrc,
-              //举报视频
-              reportVideoSrc: res.data.retObj.reportVideoSrc,
-              //地址图片
-              addstImgSrc: res.data.retObj.addstImgSrc,
-              //地址视频
-              addsVideoSrc: res.data.retObj.addsVideoSrc,
+            retObj: res.data.retObj,
+            //问题分类
+            sort: res.data.retObj.questionSorts,
+            //举报图片
+            reportImgSrc: res.data.retObj.reportImgSrc,
+            //举报视频
+            reportVideoSrc: res.data.retObj.reportVideoSrc,
+            //地址图片
+            addstImgSrc: res.data.retObj.addstImgSrc,
+            //地址视频
+            addsVideoSrc: res.data.retObj.addsVideoSrc,
 
 
-            })
-          
+          })
+
         }
 
 
@@ -102,13 +100,12 @@ Page({
       //请求失败
       fail: function(err) {},
       //请求完成后执行的函数
-      complete: function() {
-          }
-         
+      complete: function() {}
 
-      })
- 
-         
+
+    })
+
+
   }
 
 })

@@ -56,14 +56,18 @@ Page({
   },
 
 
-/**
+  /**
    * 获取问题类型数据
    */
   getProblemType() {
+    var projectId = wx.getStorageSync('projectId');
     let that = this;
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
-      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      // url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
+      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      data: {
+        "projectId": projectId
+      },
       success(res) {
         if (res.data.httpStatusCode === 200) {
           console.log("进来了")
@@ -81,7 +85,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-   onLoad: function (options) {
+  onLoad: function(options) {
 
     qqmapsdk = new QQMapWX({
       key: this.data.key
@@ -95,7 +99,7 @@ Page({
     console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
 
- 
+
   regionchange(e) {
     // 地图发生变化的时候，获取中间点，也就是cover-image指定的位置
     if (e.type == 'end' && (e.causedBy == 'scale' || e.causedBy == 'drag')) {
@@ -124,7 +128,7 @@ Page({
         longitude: lng
       },
       success: (res) => {
-        console.log(res)
+        // console.log(res)
         console.log(res.result.formatted_addresses.recommend)
         this.setData({
           address: res.result.formatted_addresses.recommend //res.result.address
@@ -445,6 +449,7 @@ Page({
 
   //提交按钮
   submit() {
+    var projectId = wx.getStorageSync('projectId');
     var that = this;
     //问题分类
     var qustionSort = this.data.showProblemType;
@@ -472,15 +477,15 @@ Page({
     var openid = that.data.openid;
     console.log("普通资源携带的openid:？", openid);
 
-    // if (qustionSort.length < 1) {
-    //   wx.showToast({
-    //     title: '请选择问题类型',
-    //     icon: 'none',
-    //     duration: 1000,
-    //     mask: true
-    //   })
-    //   return
-    // }
+    if (qustionSort.length < 1) {
+      wx.showToast({
+        title: '请选择问题类型',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      })
+      return
+    }
     if ((reportImg.length + reportVideo.length) < 1) {
       wx.showToast({
         title: '请拍摄举报图片/视频',
@@ -516,7 +521,8 @@ Page({
     sortIds = sortIds.substring(0, sortIds.length - 1)
     //发送请求到后台，存储：经纬度、地址、描述、问题ID 
     wx.request({
-      url: "http://192.168.15.146:8080/home/manage/createAnswer",
+      // url: "http://192.168.15.146:8080/home/manage/createAnswer",
+      url: "http://221.216.95.200:8285/home/manage/createAnswer",
       data: {
         "longitude": longitude,
         "latitude": latitude,
@@ -524,6 +530,7 @@ Page({
         "desc": desc,
         "qustionSort": sortIds,
         "openid": openid,
+        "projectId": projectId
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -619,10 +626,8 @@ Page({
 
     //上传举报图片
     wx.uploadFile({
-      // 192.168.15.193:8199
-      //  url: 'http://221.216.95.200:8285/home/manage/upload',
-
-      url: 'http://192.168.15.146:8080/home/manage/upload',
+      // url: 'http://192.168.15.146:8080/home/manage/upload',
+      url: 'http://221.216.95.200:8285/home/manage/upload',
       filePath: reportImg[i],
       name: 'reportImg' + i + openid,
       formData: {
@@ -672,7 +677,8 @@ Page({
 
 
     wx.uploadFile({
-      url: 'http://192.168.15.146:8080/home/manage/upload',
+      // url: 'http://192.168.15.146:8080/home/manage/upload',
+      url: 'http://221.216.95.200:8285/home/manage/upload',
       filePath: addsImg[i],
       name: 'addsImg' + i + openid,
       formData: {
@@ -718,7 +724,8 @@ Page({
     var openid = that.data.openid;
 
     wx.uploadFile({
-      url: 'http://192.168.15.146:8080/home/manage/upload',
+      url: 'http://221.216.95.200:8285/home/manage/upload',
+      // url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: reportVideo[i].src,
       name: 'reportVideo' + i + openid,
       formData: {
@@ -766,7 +773,8 @@ Page({
     var openid = that.data.openid;
 
     wx.uploadFile({
-      url: 'http://192.168.15.146:8080/home/manage/upload',
+      // url: 'http://192.168.15.146:8080/home/manage/upload',
+      url: 'http://221.216.95.200:8285/home/manage/upload',
       filePath: addsVideo[i].src,
       name: 'addsVideo' + i + openid,
       formData: {

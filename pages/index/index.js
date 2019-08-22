@@ -1,5 +1,7 @@
+//获取应用实例
+// const regeneratorRuntime = require('../utils/runtime.js');
+var app = getApp()
 Page({
-
   data: {
     swiperIndex: 0, //初始化swiper索引
     swiperHeight: 350,
@@ -17,6 +19,7 @@ Page({
     maxPageNum: 1,
     //空内容提示标识
     isNull: '',
+
   },
   /**
    * 生命周期函数--监听页面加载
@@ -28,7 +31,7 @@ Page({
     this.getProblemType();
     //默认第一次加载任务列表（全部）
     this.getTaskListAll();
-    console.log("测试一下")
+
 
   },
 
@@ -37,21 +40,40 @@ Page({
       swiperIndex: e.detail.current
     })
   },
-  toswiper: function() {
-    var swiperIndex = this.data.swiperIndex;
-    wx.navigateTo({
-      url: "../swiper/swiper?id=" + swiperIndex
+  toswiper: function(e) {
+    let that = this;
+    var id = e.currentTarget.dataset.id;
+    wx.request({
+      // url: "http://192.168.15.146:8080/home/manage/findViewArticle",
+      url: "http://221.216.95.200:8285/home/manage/findViewArticle",
+      data: {
+        "viewId": id
+      },
+      success(res) {
+        if (res.data.status === "success" && res.data.retObj != null) {
+          that.setData({
+            ArticleList: res.data.retObj,
+            list: res.data.retObj.content.replace(/\\n/g, "\n")
+          })
+          wx.navigateTo({
+            url: "../swiper/swiper?id=" + e.currentTarget.dataset.id
+          })
+        }
+      }
     })
   },
   /**
    * 获取轮播图数据
    */
   getSwiperList() {
-
+    var projectId = wx.getStorageSync('projectId')
     let that = this;
     wx.request({
-      // url: "http://221.216.95.200:8285/home/manage/searchViewPages",
-      url: "http://192.168.15.146:8080/home/manage/searchViewPages",
+      url: "http://221.216.95.200:8285/home/manage/searchViewPages",
+      // url: "http://192.168.15.146:8080/home/manage/searchViewPages",
+      data: {
+        "projectId": projectId
+      },
       success(res) {
         // console.log(res);
         if (res.data.status === "success") {
@@ -63,15 +85,18 @@ Page({
     })
   },
 
-
   /**
    * 获取问题类型数据
    */
   getProblemType() {
+    var projectId = wx.getStorageSync('projectId')
     let that = this;
     wx.request({
-      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
-      url:'http://192.168.15.146:8080/home/manage/searchQuestionSorts',
+      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      // url: 'http://192.168.15.146:8080/home/manage/searchQuestionSorts',
+      data: {
+        "projectId": projectId
+      },
       success(res) {
         // console.log(res);
         if (res.data.status === "success") {
@@ -121,15 +146,17 @@ Page({
    * 第一次默认加载全部，这里只加载一次，后面根据当前问题的ID发送请求
    */
   getTaskList: function(e) {
+    var projectId = wx.getStorageSync('projectId')
     var that = this;
     //console.log(e);
     wx.request({
 
-      // url: "http://221.216.95.200:8285/home/manage/searchTaskList",
-      url: "http://192.168.15.146:8080/home/manage/searchTaskList",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "sortId": e,
         "page": that.data.pagenum,
+        "projectId": projectId
       },
       success(res) {
         //console.log(res);
@@ -152,15 +179,18 @@ Page({
   },
   //获取全部任务列表（页面加载）
   getTaskListAll: function() {
+    var projectId = wx.getStorageSync('projectId')
     var that = this;
     wx.request({
-      // url: "http://221.216.95.200:8285/home/manage/searchTaskList",
-      url: "http://192.168.15.146:8080/home/manage/searchTaskList",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "page": that.data.pagenum,
+        "projectId": projectId
       },
       success(res) {
         if (res.data.status === "success") {
+          // console.log(res)
           that.setData({
             //1、that.data.taskList  获取当前页面存的taskList数组
             //2、res.data.retObj   获取当前请求得到的taskList数组

@@ -81,14 +81,16 @@ Page({
   back:function(e,openid){
     // console.log("这是退回：",e)
     //  console.log("这是退回openid：",openid)
+    var projectId = wx.getStorageSync('projectId')
     var that = this;
     wx.request({
-     // url: "http://192.168.15.193:8199/home/manage/searchTaskList",
-       url: "http://192.168.15.146:8080/home/manage/searchTaskList",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "status": e,
          "page": that.data.pagenum,
          "openid":openid,
+         "projectId":projectId
       },
       success(res) {
         // console.log("退回：",res);
@@ -113,14 +115,16 @@ Page({
   finish:function(e,openid){
     // console.log("这是完成：",e)
     // console.log("这是完成openid：",openid)
+    var projectId = wx.getStorageSync('projectId')
     var that = this;
     wx.request({
-      // url: "http://192.168.15.193:8199/home/manage/searchTaskList",
-       url: "http://192.168.15.146:8080/home/manage/searchTaskList",
+      //  url: "http://192.168.15.146:8080/home/manage/searchTaskList",
+      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
       data: {
         "status": e,
         "page": that.data.pagenum,
          "openid":openid,
+         "projectId":projectId
       },
       success(res) {
         // console.log("成功：",res);
