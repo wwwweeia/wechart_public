@@ -13,7 +13,7 @@
 <view class="container padding bg-white " hover-stop-propagation="false" hover-class="none">
   <!-- 地图控件 -->
   <map id="maps" longitude="{{longitude}}" latitude="{{latitude}}" scale="16" show-location bindregionchange="regionchange">
-    <cover-image class="cover-image" src="../../images/location.png" />
+    <cover-image class="cover-image " src="../../images/location.png" />
   </map>
  
   
@@ -25,9 +25,11 @@
     <text class="cuIcon-title text-blue"></text>地址定位
   </view>
    <view class="action">
-    <button class="cu-btn bg-green shadow" catchtap="currentLocation">定位异常</button>
+    <button class="cu-btn bg-green shadow" catchtap="currentLocation">刷新</button>
   </view>
 </view>
+
+
 
 <view class="cu-form-group  bg-white">
   <input class="weui-input" value="{{address}}" />

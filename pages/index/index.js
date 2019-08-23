@@ -67,6 +67,7 @@ Page({
    */
   getSwiperList() {
     var projectId = wx.getStorageSync('projectId')
+    // console.log(projectId)
     let that = this;
     wx.request({
       url: "http://221.216.95.200:8285/home/manage/searchViewPages",
