@@ -50,12 +50,12 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 0,
 			"list": [
 				{
 					"id": 0,
 					"name": "测试",
-					"pathName": "pages/detailPage/detailPage",
+					"pathName": "pages/ceshi/ceshi",
 					"query": "",
 					"scene": null
 				},

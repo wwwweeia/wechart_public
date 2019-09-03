@@ -52,7 +52,11 @@ Page({
     //失败个数
     fail: 0,
     //openid
-    openid: ''
+    openid: '',
+    // 项目地址
+    projectCity: '',
+    // 用户地址
+    userCity: ''
   },
 
 
@@ -70,7 +74,7 @@ Page({
       },
       success(res) {
         if (res.data.httpStatusCode === 200) {
-          console.log("进来了")
+          // console.log("进来了")
           for (let i = 0; i < res.data.retObj.length; i++) {
             i.checked == false;
           }
@@ -86,17 +90,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
     qqmapsdk = new QQMapWX({
       key: this.data.key
     });
     this.currentLocation();
     this.getProblemType();
-  },
-
-
-  radioChange: function(e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
   },
 
 
@@ -152,11 +150,75 @@ Page({
           longitude: res.longitude
         })
         that.getAddress(res.longitude, res.latitude);
+        that.getLocationByUsert(res.longitude, res.latitude);
+      }
+    })
+    var log = wx.getStorageSync('projectLog')
+    var lat = wx.getStorageSync('projectLat')
+    that.getLocationByProject(log, lat);
+
+  },
+
+  //经纬度获取用户位置
+  getLocationByUsert: function(log, lat) {
+    var that = this;
+    qqmapsdk.reverseGeocoder({
+      location: {
+        latitude: lat,
+        longitude: log
+      },
+      success: function(res) {
+        let UserCity = res.result.address_component.city;
+        that.setData({
+          userCity: UserCity
+        })
+        console.log("用户地址：",UserCity)
+        that.userAndProject();
       }
     })
   },
-
-
+  //经纬度获取项目位置
+  getLocationByProject: function(log, lat) {
+    var that = this;
+    console.log(log, lat)
+    qqmapsdk.reverseGeocoder({
+      location: {
+        latitude: lat,
+        longitude: log
+      },
+      success: function(res) {
+        let projectCity = res.result.address_component.city;
+        that.setData({
+          projectCity: projectCity
+        })
+        console.log("项目地址：",projectCity)
+      }
+    })
+  },
+  // 对比地址
+  userAndProject: function() {
+    var projectCity = this.data.projectCity;
+    var userCity = this.data.userCity;
+    if (projectCity != userCity) {
+      this.showToast();
+    }
+  },
+  //提示未开通服务，跳转首页
+  showToast() {
+    this.toast = this.selectComponent("#tui-tips-ctx")
+    let params = {
+      icon: true
+    };
+    params.title = "您所在的位置暂未开通服务";
+    params.imgUrl = "/images/toast/info-circle.png";
+    params.duration = 3000;
+    this.toast.show(params);
+    setTimeout(function() {
+      wx.reLaunch({
+        url: "../index/index"
+      })
+    }, 3000)
+  },
   takePhoto() {
     this.ctx.takePhoto({
       quality: 'high',
@@ -310,6 +372,7 @@ Page({
     if (type == 'adds') {
       wx.chooseVideo({
         sourceType: ['album', 'camera'],
+        compressed: false,
         maxDuration: 30,
         camera: 'back',
         success: (res) => {
@@ -336,6 +399,7 @@ Page({
     } else {
       wx.chooseVideo({
         sourceType: ['album', 'camera'],
+        compressed: false,
         maxDuration: 30,
         camera: 'back',
         success: (res) => {
@@ -587,12 +651,13 @@ Page({
       that.reportImg11();
     }
     if (reportVideo.length > 0) {
-      //地址图片
-      that.addsImg11();
-    }
-    if (addsImg.length > 0) {
       //举报视频
       that.reportVideo11();
+    }
+    if (addsImg.length > 0) {
+      
+      //地址图片
+      that.addsImg11();
     }
     if (addsVideo.length > 0) {
       //地址视频

@@ -32,7 +32,6 @@ Page({
     //默认第一次加载任务列表（全部）
     this.getTaskListAll();
 
-
   },
 
   bindchange(e) {

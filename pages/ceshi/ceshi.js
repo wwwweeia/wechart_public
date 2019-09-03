@@ -1,113 +1,170 @@
-const QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
-let qqmapsdk;
-//获取应用实例
-const app = getApp()
-Page({
-  data: {
-    address: "正在获取地址...",
-    longitude: 116.397452,
-    latitude: 39.909042,
-    key: 'W4WBZ-TUD65-IDAIR-QPM36-HMFQ5-CGBZP',
-
-    //框架属性
-    // CustomBar: app.globalData.CustomBar,
-    //分类显示判断标志
-    isShow: false,
-    //框架测试多选框属性
-    //ColorList: app.globalData.ColorList,
-    //问题分类多选框数组
-    problemType: [],
-    //问题分类已选择显示数组
-    showProblemType: [],
-    //图片上传数据
-    imgList: [],
-    //视频上传数据
-    videoList: [],
-    //举报视频资源路径
-    //videoSrcs:[],
-    //地址图片或视频缩略图
-    addressImgList: [],
-    //地址图片或视频上传数据
-    addressVideoList: [],
-    //地址视频资源路径
-    //addrvideoSrcs:[],
-    //举报内容
-    textareaAValue: '',
-    //上传资源所属类别(举报or地址)
-    type: '',
-    //地址资源总长度   限制上传数量
-    addslength: 0,
-    //举报资源总长度  限制上传数量
-    reportlength: 0,
-    //举报描述
-    desc: '',
-    ids: [],
-    test: [],
-    //上传资源绑定的问题ID
-    answerId: '',
-    //上传的第几个资源
-    i: 0,
-    //成功个数
-    success: 0,
-    //失败个数
-    fail: 0,
-    //openid
-    openid: ''
-  },
-
-
-  /**
-   * 获取问题类型数据
-   */
-  getProblemType() {
-    let that = this;
-    wx.request({
-      // url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
-      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
-      success(res) {
-        if (res.data.httpStatusCode === 200) {
-          console.log("进来了")
-          for (let i = 0; i < res.data.retObj.length; i++) {
-            i.checked == false;
+const util = require('../../utils/util_time.js')
+const app = getApp();
+const recorderManager = wx.getRecorderManager()
+recorderManager.onStart(() => {
+  console.log('recorder start')
+})
+recorderManager.onResume(() => {
+  console.log('recorder resume')
+})
+recorderManager.onPause(() => {
+  console.log('recorder pause')
+})
+recorderManager.onStop((res) => {
+  console.log('recorder stop', res);
+  const {
+    tempFilePath
+  } = res;
+  wx.getStorage({
+    key: 'open_id',
+    success: function(res) {
+      console.log(res)
+      wx.showToast({
+        icon: 'none',
+        title: '语音识别中',
+      })
+      const id = res.data;
+      let recordTime = Date.now();
+      wx.uploadFile({
+        url: 'http://192.168.15.146:8080/member/manage/upRecord',
+        filePath: tempFilePath,
+        name: 'file',
+        header: {
+          "Content-Type": "multipart/form-data"
+        },
+        success: function(res) {
+          if (res.data == 'success') {
+            wx.switchTab({
+              url: '/pages/index/index',
+            })
+          } else {
+            wx.showToast({
+              icon: 'none',
+              title: '没有听清楚，请再说一次',
+            })
           }
-          that.setData({
-            problemType: res.data.retObj
+        },
+        fail: function(res) {
+          wx.showToast({
+            icon: 'none',
+            title: '没有听清楚，请再说一次',
           })
         }
-      }
+      })
+
+    },
+    fail: function(res) {
+      console.log('fail')
+    }
+
+  })
+})
+recorderManager.onFrameRecorded((res) => {})
+
+const options = {
+  duration: 60000,
+  sampleRate: 16000,
+  numberOfChannels: 1,
+  encodeBitRate: 64000,
+  format: 'mp3',
+  frameSize: 50
+}
+
+Page({
+  data: {
+    buttonTxt: '开始录音',
+    isRecord: false,
+    log: {},
+    isRuning: false,
+    remainTimeText: '00:00'
+  },
+  record: function() {
+    wx.setStorageSync('open_id', 123456)
+    var that = this;
+    if (that.data.isRecord) {
+      wx.setKeepScreenOn({
+        keepScreenOn: false
+      })
+      recorderManager.stop();
+      this.stopTimer();
+      that.data.isRecord = false;
+      that.setData({
+        buttonTxt: '开始录音'
+      });
+
+    } else {
+      wx.setKeepScreenOn({
+        keepScreenOn: true
+      })
+      recorderManager.start(options);
+      this.startTimer();
+      that.data.isRecord = true;
+      that.setData({
+        buttonTxt: '停止录音'
+      })
+    }
+  },
+  updateTimer: function() {
+    let log = this.data.log
+    let now = Date.now()
+    let remainingTime = Math.round((now - log.endTime) / 1000)
+    let M = util.formatTime(Math.floor(remainingTime / (60)) % 60, 'MM')
+    let S = util.formatTime(Math.floor(remainingTime) % 60, 'SS')
+    if (remainingTime > 58) {
+      wx.setKeepScreenOn({
+        keepScreenOn: false
+      })
+      this.stopTimer()
+      recorderManager.stop();
+      this.data.isRecord = false;
+      this.setData({
+        buttonTxt: '开始录音'
+      });
+      return
+    } else {
+      let remainTimeText = M + ":" + S;
+      this.setData({
+        remainTimeText: remainTimeText
+      })
+    }
+  },
+  stopTimer: function() {
+    this.timer && clearInterval(this.timer)
+    this.setData({
+      isRuning: false,
+      remainTimeText: '00:00',
     })
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    this.thisWhy()
+  startTimer: function(e) {
+    let isRuning = this.data.isRuning
+    let startTime = Date.now()
+    if (!isRuning) {
+      this.timer = setInterval((function() {
+        this.updateTimer()
+      }).bind(this), 1000)
+    } else {
+      this.stopTimer()
+    }
+    this.setData({
+      isRuning: !isRuning,
+      remainTimeText: '00:00',
+    })
+    this.data.log = {
+      endTime: startTime
+    }
+    this.saveLog(this.data.log)
   },
-  // onLoad(options) {
-  //    console.log("进来了吗：",options)
-  //   // qqmapsdk = new QQMapWX({
-  //   //   key: this.data.key
-  //   // });
-  //   // this.currentLocation();
-  //   // this.getProblemType();
-  //   this.thisWhy()
-  // },
-
-  thisWhy: function() {
-    console.log("这是测试方法")
+  saveLog: function(log) {
+    var logs = wx.getStorageSync('logs') || []
+    logs.unshift(log)
+    wx.setStorageSync('logs', logs)
   },
-
-
-  radioChange: function(e) {
-    console.log('radio发生change事件，携带value值为：', e.detail.value)
-  },
-
-  onLoad: function(options) {
-    qqmapsdk = new QQMapWX({
-      key: this.data.key
-    });
-    this.currentLocation()
-  },
-
+  onHide: function() {
+    recorderManager.stop();
+    this.stopTimer();
+    this.data.isRecord = false;
+    this.setData({
+      buttonTxt: '开始录音'
+    })
+  }
 })
