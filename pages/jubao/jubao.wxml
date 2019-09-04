@@ -157,8 +157,9 @@
 </view>
 <!-- !!!!! placeholder 在ios表现有偏移 建议使用 第一种样式 -->
 <view class="cu-form-group">
-  <textarea maxlength="-1"  bindinput="textareaAInput" placeholder="请输入举报内容" ></textarea>
+  <textarea  value="{{desc}}"  maxlength="-1"  bindinput="textareaAInput" placeholder="请输入举报内容" ></textarea>
 </view>
+<button type="primary" class="cu-btn block bg-blue margin-tb-sm lg" button-disabled="{{bottomButtonDisabled}}" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd">按下录音，语音转换</button>
 <button class="cu-btn block bg-blue margin-tb-sm lg" bindtap='submit'>提交</button>
 
 <view class="cu-modal {{modalName=='Modal'?'show':''}}">

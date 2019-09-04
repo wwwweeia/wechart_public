@@ -2,6 +2,13 @@ const QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
 let qqmapsdk;
 //获取应用实例
 const app = getApp()
+const util = require('../../utils/util.js')
+
+const plugin = requirePlugin("WechatSI")
+
+// 获取**全局唯一**的语音识别管理器**recordRecoManager**
+const manager = plugin.getRecordRecognitionManager()
+
 Page({
   data: {
     address: "正在获取地址...",
@@ -56,9 +63,126 @@ Page({
     // 项目地址
     projectCity: '',
     // 用户地址
-    userCity: ''
+    userCity: '',
+    bottomButtonDisabled: false, // 底部按钮disabled
+    recording: false,  // 正在录音
+    recordStatus: 0  // 状态： 0 - 录音中 1- 翻译中 2 - 翻译完成/二次翻译
   },
 
+  /**
+     * 按住按钮开始语音识别
+     */
+  streamRecord: function (e) {
+    //console.log("streamrecord", e)
+    wx.showToast({
+      title: '请按住讲话~',
+      icon: 'loading',
+      //image: '/images/loading_transition.gif',
+      duration: 60000,
+      success: function (res) {
+
+      },
+      fail: function (res) {
+        //console.log(res);
+      }
+    });
+    manager.start({
+    })
+  },
+
+
+  /**
+   * 松开按钮结束语音识别
+   */
+  streamRecordEnd: function (e) {
+
+    //console.log("streamRecordEnd", e)
+    wx.showToast({
+      title: '正在转换~',
+      icon: 'loading',
+      duration: 1000,
+      success: function (res) {
+
+      },
+      fail: function (res) {
+        //console.log(res);
+      }
+    });
+    manager.stop()
+    this.setData({
+      bottomButtonDisabled: true,
+    })
+  },
+  /**
+    * 识别内容为空时的反馈
+    */
+  showRecordEmptyTip: function () {
+    this.setData({
+      recording: false,
+      bottomButtonDisabled: false,
+    })
+    wx.showToast({
+      title: '请大声点~',
+      icon: 'success',
+      image: '/images/no_voice.png',
+      duration: 1000,
+      success: function (res) {
+
+      },
+      fail: function (res) {
+        //console.log(res);
+      }
+    });
+  },
+
+
+  /**
+   * 初始化语音识别回调
+   * 绑定语音播放开始事件
+   */
+  initRecord: function () {
+    //有新的识别内容返回，则会调用此事件
+    manager.onRecognize = (res) => {
+      //console.log('新的内容');
+    }
+
+    // 识别结束事件
+    manager.onStop = (res) => {
+      let text = res.result
+      //console.log(text)
+      if (text == '') {
+        this.showRecordEmptyTip()
+        return
+      }
+      this.data.desc = text
+      this.setData({
+        desc : text
+      })
+    
+    }
+
+    // 识别错误事件
+    manager.onError = (res) => {
+
+      this.setData({
+        recording: false,
+        bottomButtonDisabled: false,
+      })
+
+    }
+
+    // 语音播放开始事件
+    wx.onBackgroundAudioPlay(res => {
+
+      const backgroundAudioManager = wx.getBackgroundAudioManager()
+      let src = backgroundAudioManager.src
+
+      this.setData({
+        currentTranslateVoice: src
+      })
+
+    })
+  },
 
   /**
    * 获取问题类型数据
@@ -90,6 +214,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    this.initRecord()
     qqmapsdk = new QQMapWX({
       key: this.data.key
     });
@@ -173,7 +298,7 @@ Page({
           userCity: UserCity
         })
         console.log("用户地址：",UserCity)
-        that.userAndProject();
+        // that.userAndProject();
       }
     })
   },
