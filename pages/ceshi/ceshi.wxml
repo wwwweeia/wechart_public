@@ -7,3 +7,4 @@
   <text class='post'>语音识别技术由科大讯飞提供</text>  
   </view>     
 </view>
+<view wx:if="{{abd}}"> True </view>

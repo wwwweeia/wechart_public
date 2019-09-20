@@ -76,6 +76,7 @@ Page({
     isRecord: false,
     log: {},
     isRuning: false,
+    abd:false,
     remainTimeText: '00:00'
   },
   record: function() {

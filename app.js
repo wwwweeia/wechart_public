@@ -1,3 +1,4 @@
+
 App({
   onLaunch: function() {
     // 展示本地存储能力
@@ -45,9 +46,7 @@ App({
   
 
   },
-  globalData: {
-    userInfo: null
-  },
+
   // 权限询问
   getRecordAuth: function () {
     wx.getSetting({
@@ -72,6 +71,10 @@ App({
         console.log(res)
       }
     })
+  },
+    globalData: {
+    userInfo: null,
+      requestUrl:'http://221.216.95.200:8285'
   }
    
 })

@@ -11,6 +11,7 @@ const manager = plugin.getRecordRecognitionManager()
 
 Page({
   data: {
+    requestUrl: '',//服务器路径
     address: "正在获取地址...",
     longitude: 116.397452,
     latitude: 39.909042,
@@ -214,6 +215,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var requestUrl = app.globalData.requestUrl;
+    this.setData({
+      requestUrl:requestUrl
+    })
     this.initRecord()
     qqmapsdk = new QQMapWX({
       key: this.data.key
@@ -626,10 +631,10 @@ Page({
     })
   },
   textareaAInput(e) {
-
     this.data.desc = e.detail.value;
   },
   hideModal(e) {
+    console.log("点击了",e)
     this.setData({
       modalName: null
     })
@@ -644,6 +649,7 @@ Page({
     var qustionSort = this.data.showProblemType;
     //举报描述
     var desc = this.data.desc;
+  
     //举报经纬度
     var longitude = this.data.longitude;
     var latitude = this.data.latitude;
@@ -657,6 +663,8 @@ Page({
     var addsImg = that.data.addressImgList;
     //地址视频集合
     var addsVideo = that.data.addressVideoList;
+
+    var requestUrl = that.data.requestUrl;//服务器路径
 
     var app = getApp();
     var openid = app.openid;
@@ -711,7 +719,7 @@ Page({
     //发送请求到后台，存储：经纬度、地址、描述、问题ID 
     wx.request({
       // url: "http://192.168.15.146:8080/home/manage/createAnswer",
-      url: "http://221.216.95.200:8285/home/manage/createAnswer",
+      url: requestUrl+"/home/manage/createAnswer",
       data: {
         "longitude": longitude,
         "latitude": latitude,
@@ -812,12 +820,13 @@ Page({
     var success = that.data.success;
     var fail = that.data.fail;
     var openid = that.data.openid;
+    var requestUrl = that.data.requestUrl;//服务器路径
     console.log("图片资源携带的openid:？", openid);
 
     //上传举报图片
     wx.uploadFile({
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: requestUrl+'/home/manage/upload',
       filePath: reportImg[i],
       name: 'reportImg' + i + openid,
       formData: {
@@ -864,11 +873,11 @@ Page({
     var success = that.data.success;
     var fail = that.data.fail;
     var openid = that.data.openid;
-
+var requestUrl = that.data.requestUrl;//服务器路径
 
     wx.uploadFile({
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: requestUrl+'/home/manage/upload',
       filePath: addsImg[i],
       name: 'addsImg' + i + openid,
       formData: {
@@ -912,9 +921,9 @@ Page({
     var success = that.data.success;
     var fail = that.data.fail;
     var openid = that.data.openid;
-
+var requestUrl = that.data.requestUrl;//服务器路径
     wx.uploadFile({
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: requestUrl+'/home/manage/upload',
       // url: 'http://192.168.15.146:8080/home/manage/upload',
       filePath: reportVideo[i].src,
       name: 'reportVideo' + i + openid,
@@ -961,10 +970,10 @@ Page({
     var success = that.data.success0;
     var fail = that.data.fail;
     var openid = that.data.openid;
-
+var requestUrl = that.data.requestUrl;//服务器路径
     wx.uploadFile({
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: 'http://221.216.95.200:8285/home/manage/upload',
+      url: requestUrl+'/home/manage/upload',
       filePath: addsVideo[i].src,
       name: 'addsVideo' + i + openid,
       formData: {

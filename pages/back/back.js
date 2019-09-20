@@ -1,5 +1,8 @@
+
+var app = getApp()
 Page({
   data: {
+    requestUrl: '',//服务器路径
     icon: ['locationfill'],
     //答案ID
     answerId: '',
@@ -30,6 +33,10 @@ Page({
    */
   onLoad: function(answerId) {
     var that = this;
+    var requestUrl = app.globalData.requestUrl;
+    this.setData({
+      requestUrl:requestUrl
+    })
     var id = answerId.id;
     console.log("id是:", id)
     //获取数据
@@ -66,9 +73,11 @@ Page({
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
+
+var requestUrl = that.data.requestUrl;
     wx.request({
       // url: "http://192.168.15.146:8080/home/manage/searchAnswerInfo",
-      url: "http://221.216.95.200:8285/home/manage/searchAnswerInfo",
+      url: requestUrl+"/home/manage/searchAnswerInfo",
       data: {
         answerId: id
       },

@@ -1,6 +1,9 @@
+
+var app = getApp()
 Page({
 
   data: {
+    requestUrl: '',//服务器路径
     tab:[
      '已完成',"处理中",'已退回',"待审核"
     ],
@@ -24,8 +27,10 @@ Page({
    */
   onLoad(options) {
     var that = this;
+    var requestUrl = app.globalData.requestUrl;
     this.setData({
-        openid: options.openid
+        openid: options.openid,
+        requestUrl:requestUrl
     })
     var openid = this.data.openid;
     if(openid != null && openid != ''){
@@ -83,8 +88,10 @@ Page({
     //  console.log("这是退回openid：",openid)
     var projectId = wx.getStorageSync('projectId')
     var that = this;
+
+var requestUrl = that.data.requestUrl;//服务器路径
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskList",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "status": e,
@@ -117,9 +124,11 @@ Page({
     // console.log("这是完成openid：",openid)
     var projectId = wx.getStorageSync('projectId')
     var that = this;
+
+var requestUrl = that.data.requestUrl;//服务器路径
     wx.request({
       //  url: "http://192.168.15.146:8080/home/manage/searchTaskList",
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskList",
       data: {
         "status": e,
         "page": that.data.pagenum,

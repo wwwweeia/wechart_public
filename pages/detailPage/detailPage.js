@@ -1,5 +1,7 @@
+var app = getApp()
 Page({
   data: {
+    requestUrl: '',//服务器路径
     icon: ['locationfill'],
     // //任务ID
     // taskId: '',
@@ -34,8 +36,14 @@ Page({
   onLoad: function(taskId) {
     var that = this;
     var id = taskId.id;
+var requestUrl = app.globalData.requestUrl;
+    this.setData({
+      requestUrl:requestUrl
+    })
+
     //获取数据
     that.detail(id);
+    
 
   },
   ViewImageForreport(e) {
@@ -68,9 +76,14 @@ Page({
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
+    var requestUrl = that.data.requestUrl;
     console.log("这是咋回事：", id)
+    console.log("这是咋回事：", requestUrl)
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskInfo?taskId=" + id,
+      url: requestUrl+"/home/manage/searchTaskInfo",
+      data:{
+        taskId:id
+      },
       // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=" + id,
       success(res) {
         if (res.data.status === "success") {
@@ -94,7 +107,7 @@ Page({
             //imgSrc: res.data.retObj.taskRecord.imgSrc
           })
 
-          // console.log("zhehsichangdu:", taskRecord.length)
+          console.log("reportImgSrc:", that.data.reportImgSrc)
 
 
         }

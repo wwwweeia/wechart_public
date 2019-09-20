@@ -3,6 +3,7 @@
 var app = getApp()
 Page({
   data: {
+    requestUrl: '',//服务器路径
     swiperIndex: 0, //初始化swiper索引
     swiperHeight: 350,
     // 问题栏默认值
@@ -18,13 +19,18 @@ Page({
     //赋值任务列表总页数（默认1）
     maxPageNum: 1,
     //空内容提示标识
-    isNull: '',
-
+    isNull: ''
+    
   },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    var requestUrl = app.globalData.requestUrl;
+    this.setData({
+      requestUrl:requestUrl
+    })
+    console.log("这是啥",requestUrl)
     //加载轮播图
     this.getSwiperList();
     //加载问题栏
@@ -42,9 +48,10 @@ Page({
   toswiper: function(e) {
     let that = this;
     var id = e.currentTarget.dataset.id;
+    var requestUrl = that.data.requestUrl;
     wx.request({
       // url: "http://192.168.15.146:8080/home/manage/findViewArticle",
-      url: "http://221.216.95.200:8285/home/manage/findViewArticle",
+      url: requestUrl+"/home/manage/findViewArticle",
       data: {
         "viewId": id
       },
@@ -68,8 +75,9 @@ Page({
     var projectId = wx.getStorageSync('projectId')
     // console.log(projectId)
     let that = this;
+    var requestUrl = that.data.requestUrl;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchViewPages",
+      url: requestUrl+"/home/manage/searchViewPages",
       // url: "http://192.168.15.146:8080/home/manage/searchViewPages",
       data: {
         "projectId": projectId
@@ -91,8 +99,9 @@ Page({
   getProblemType() {
     var projectId = wx.getStorageSync('projectId')
     let that = this;
+    var requestUrl = that.data.requestUrl;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      url: requestUrl+"/home/manage/searchQuestionSorts",
       // url: 'http://192.168.15.146:8080/home/manage/searchQuestionSorts',
       data: {
         "projectId": projectId
@@ -148,10 +157,12 @@ Page({
   getTaskList: function(e) {
     var projectId = wx.getStorageSync('projectId')
     var that = this;
+
+var requestUrl = that.data.requestUrl;
     //console.log(e);
     wx.request({
 
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskList",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "sortId": e,
@@ -181,8 +192,10 @@ Page({
   getTaskListAll: function() {
     var projectId = wx.getStorageSync('projectId')
     var that = this;
+
+var requestUrl = that.data.requestUrl;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskList",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "page": that.data.pagenum,

@@ -1,5 +1,7 @@
+var app = getApp()
 Page({
   data: {
+    requestUrl: '',//服务器路径
     icon: ['locationfill'],
     //任务ID
     taskId: '',
@@ -34,8 +36,13 @@ Page({
     var that = this;
     var id = taskId.id;
     console.log("id是：", id)
-    that.detail(id);
+    
 
+var requestUrl = app.globalData.requestUrl;
+    this.setData({
+      requestUrl:requestUrl
+    })
+that.detail(id);
   },
   ViewImageForreport(e) {
     // console.log("图片数据：", e);
@@ -67,8 +74,9 @@ Page({
     var that = this;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
+    var requestUrl = that.data.requestUrl;
     wx.request({
-      url: "http://221.216.95.200:8285/home/manage/searchTaskInfo",
+      url: requestUrl+"/home/manage/searchTaskInfo",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo",
       data: {
         taskId: id
