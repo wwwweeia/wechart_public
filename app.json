@@ -9,7 +9,8 @@
     "pages/jubaodetail/jubaodetail",
     "pages/back/back",
     "pages/finish/finish",
-    "pages/ceshi/ceshi"
+    "pages/ceshi/ceshi",
+    "pages/about/about"
   ],
   "window": {
     "backgroundTextStyle": "light",

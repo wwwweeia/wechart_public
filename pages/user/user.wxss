@@ -67,6 +67,7 @@
     justify-content: center;
     display: flex;
     margin-bottom: 200rpx;
+    margin-top: 100rpx;
 }
 .icon {
     height: 150rpx;

@@ -34,16 +34,16 @@
         <text class="text-grey">我的举报</text>
       </view>
     </view>
-     <view class="cu-item arrow">
+     <!-- <view class="cu-item arrow">
       <view class="content">
         <text class="cuIcon-tagfill text-green"></text>
         <text class="text-grey">xxxxxxx</text>
       </view>
-    </view>
+    </view> -->
 </view>
 
 <view class="cu-list menu sm-border card-menu margin-top">
-     <view class="cu-item arrow">
+     <view class="cu-item arrow"  bindtap="goToabout">
       <view class="content">
       <text class="cuIcon-github  text-grey"></text>
         <text class="text-grey">关于我们</text>

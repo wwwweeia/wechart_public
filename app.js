@@ -74,7 +74,8 @@ App({
   },
     globalData: {
     userInfo: null,
-      requestUrl:'http://221.216.95.200:8285'
+      // requestUrl:'http://221.216.95.200:8285'
+      requestUrl:'https://test.diaochaonline.com/'
   }
    
 })

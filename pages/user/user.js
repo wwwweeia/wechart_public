@@ -84,6 +84,11 @@ bindGetUserInfo: function (res) {
     wx.navigateTo({
       url:"../jubaodetail/jubaodetail?openid="+openid
     })
+  },
+  goToabout:function(){
+    wx.navigateTo({
+      url: "../about/about"
+    })
   }
   //  wxLogin: function(e) {
   //   var that = this;
