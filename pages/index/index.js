@@ -55,6 +55,10 @@ Page({
       data: {
         "viewId": id
       },
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
       success(res) {
         if (res.data.status === "success" && res.data.retObj != null) {
           that.setData({
@@ -82,6 +86,10 @@ Page({
       data: {
         "projectId": projectId
       },
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
       success(res) {
         // console.log(res);
         if (res.data.status === "success") {
@@ -105,6 +113,10 @@ Page({
       // url: 'http://192.168.15.146:8080/home/manage/searchQuestionSorts',
       data: {
         "projectId": projectId
+      },
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
       },
       success(res) {
         // console.log(res);
@@ -169,6 +181,10 @@ var requestUrl = that.data.requestUrl;
         "page": that.data.pagenum,
         "projectId": projectId
       },
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
       success(res) {
         //console.log(res);
         if (res.data.status === "success") {
@@ -201,9 +217,13 @@ var requestUrl = that.data.requestUrl;
         "page": that.data.pagenum,
         "projectId": projectId
       },
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
       success(res) {
         if (res.data.status === "success") {
-          // console.log(res)
+          console.log("任务列表",res)
           that.setData({
             //1、that.data.taskList  获取当前页面存的taskList数组
             //2、res.data.retObj   获取当前请求得到的taskList数组

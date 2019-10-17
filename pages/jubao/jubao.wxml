@@ -15,7 +15,7 @@
     <text class="cuIcon-title text-blue"></text>地址定位
   </view>
    <view class="action">
-    <button class="cu-btn bg-green shadow" catchtap="currentLocation">刷新</button>
+    <button class="cu-btn bg-blue shadow" catchtap="currentLocation">刷新</button>
   </view>
 </view>
 

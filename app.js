@@ -12,8 +12,12 @@ App({
         if (res.code) {
           //发起网络请求
           wx.request({
-            url: 'http://221.216.95.200:8285/member/manage/userLogin',
-            // url: 'http://192.168.15.146:8080/member/manage/userLogin',
+            // url: 'https://test.diaochaonline.com/member/manage/userLogin',
+            url: 'http://192.168.15.147:8080/member/manage/userLogin',
+            method: "GET",
+            header: {
+              "Content-Type": "application/json"
+            },
             data: {
               govCode: 'TJBS',
               code: res.code
@@ -74,8 +78,10 @@ App({
   },
     globalData: {
     userInfo: null,
+      
+      requestUrl: 'http://192.168.15.147:8080'
       // requestUrl:'http://221.216.95.200:8285'
-      requestUrl:'https://test.diaochaonline.com/'
+      // requestUrl:'https://test.diaochaonline.com'
   }
    
 })

@@ -27,9 +27,21 @@
         <view class="desc">
           <view class="text-bold text-content1 box">{{item.describe}}</view>
           <view class='text-content text-cut box'>{{item.addr}}</view>
-          <view>
+          <view wx:if="{{item.result==1}}">
             <view class='cu-tag bg-grey light sm round'>{{item.findTime}}
             </view>
+              <!-- <text class="cu-tag bg-blue light round">等待处理</text> -->
+            <text class="text-blue">　等待处理</text>
+          </view>
+          <view wx:if="{{item.result==3}}">
+            <view class='cu-tag bg-grey light sm round'>{{item.findTime}}
+            </view>
+            <text class="text-blue">　处理中</text>
+          </view>
+          <view wx:if="{{item.result==0}}">
+            <view class='cu-tag bg-grey light sm round'>{{item.findTime}}
+            </view>
+            <text class="text-blue">　已完成</text>
           </view>
         </view>
       </view>

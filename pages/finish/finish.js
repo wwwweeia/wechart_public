@@ -83,7 +83,7 @@ that.detail(id);
       },
       success(res) {
         if (res.data.status === "success") {
-
+          
           that.setData({
 
             retObj: res.data.retObj,
