@@ -1,4 +1,6 @@
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
+//同步js
+import regeneratorRuntime from '../../libs/regenerator-runtime/runtime.js';
 let qqmapsdk;
 //获取应用实例
 const app = getApp()
@@ -53,12 +55,6 @@ Page({
     test: [],
     //上传资源绑定的问题ID
     answerId: '',
-    //上传的第几个资源
-    i: 0,
-    //成功个数
-    success: 0,
-    //失败个数
-    fail: 0,
     //openid
     openid: '',
     // 项目地址
@@ -71,6 +67,25 @@ Page({
     resourceList: [], // 封装资源列表
   },
 
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    var requestUrl = app.globalData.requestUrl;
+     var openid = app.openid;
+    var projectId = wx.getStorageSync('projectId');
+    this.setData({
+      requestUrl:requestUrl,
+      openid:openid,
+      projectId:projectId
+    })
+    this.initRecord()
+    qqmapsdk = new QQMapWX({
+      key: this.data.key
+    });
+    this.currentLocation();
+    this.getProblemType();
+  },
   /**
      * 按住按钮开始语音识别
      */
@@ -212,21 +227,7 @@ Page({
     })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    var requestUrl = app.globalData.requestUrl;
-    this.setData({
-      requestUrl:requestUrl
-    })
-    this.initRecord()
-    qqmapsdk = new QQMapWX({
-      key: this.data.key
-    });
-    this.currentLocation();
-    this.getProblemType();
-  },
+
 
 
   regionchange(e) {
@@ -311,7 +312,6 @@ Page({
   //经纬度获取项目位置
   getLocationByProject: function(log, lat) {
     var that = this;
-    console.log(log, lat)
     qqmapsdk.reverseGeocoder({
       location: {
         latitude: lat,
@@ -640,23 +640,10 @@ Page({
       modalName: null
     })
   },
-
-
-  //提交按钮
-  submit() {
-    var projectId = wx.getStorageSync('projectId');
-    var that = this;
-    //问题分类
-    var qustionSort = this.data.showProblemType;
-    //举报描述
-    var desc = this.data.desc;
-  
-    //举报经纬度
-    var longitude = this.data.longitude;
-    var latitude = this.data.latitude;
-    //举报地址
-    var address = this.data.address;
-    //举报图片集合
+  //提交按钮111
+  submit_syn: async function(){
+     var that = this;
+       //举报图片集合
     var reportImg = that.data.imgList;
     //举报视频集合
     var reportVideo = that.data.videoList;
@@ -664,17 +651,10 @@ Page({
     var addsImg = that.data.addressImgList;
     //地址视频集合
     var addsVideo = that.data.addressVideoList;
-
-    var requestUrl = that.data.requestUrl;//服务器路径
-
-    var app = getApp();
-    var openid = app.openid;
-    that.setData({
-      openid: openid
-    })
-    var openid = that.data.openid;
-    console.log("普通资源携带的openid:？", openid);
-
+    //问题分类
+    var qustionSort = this.data.showProblemType;
+    // 举报描述
+    var desc = this.data.desc;
     if (qustionSort.length < 1) {
       wx.showToast({
         title: '请选择问题类型',
@@ -711,16 +691,88 @@ Page({
       })
       return
     }
+    
+    //举报图片
+     for (var index = 0; index < reportImg.length; index++) {
+      await that.reportImg_syn(reportImg[index]).then((res) => {
+        console.log("举报图片上传完了resourceList:",that.data.resourceList);
+      })
+    }
+    //举报视频
+    for (var index = 0; index < reportVideo.length; index++) {
+      await that.reportVideo_syn(reportVideo[index].src).then((res) => {
+        console.log("视频上传完了resourceList:",that.data.resourceList);
+      });
+    }
+    //地址图片
+     for (var index = 0; index < addsImg.length; index++) {
+      await that.addsImg_syn(addsImg[index]).then((res) => {
+        console.log("地址图片上传完了resourceList:",that.data.resourceList);
+      })
+    }
+    //地址视频
+     for (var index = 0; index < addsVideo.length; index++) {
+      await that.addsVideo_syn(addsVideo[index].src).then((res) => {
+        console.log("地址视频上传完了resourceList:",that.data.resourceList);
+      })
+    }
 
+    var length = reportImg.length + reportVideo.length + addsImg.length + addsVideo.length;
+
+    // 上传成功的资源长度
+    var rsLength = that.data.resourceList.length;
+    console.log("上传成功总资源：", rsLength);
+    console.log("本地总资源:", length)
+    // 资源全部上传成功 上传答案
+    if (length == rsLength) {
+      wx.showToast({
+        title: '资源上传中',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      })
+      that.uploadAnswerTrue();
+    } else { //有资源上传失败
+      wx.showToast({
+        title: '有资源上传失败',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      })
+      // 清空资源列表
+      that.setData({
+        resourceList: []
+      })
+    }
+  },
+  //上传答案/资源
+  uploadAnswerTrue:function(){
+    var that = this;
+    var openid = that.data.openid;
+    var projectId  = that.data.projectId;
+    var requestUrl  = that.data.requestUrl;
+    //问题分类
+    var qustionSort = that.data.showProblemType;
+    //举报描述
+    var desc = that.data.desc;
+    //举报经纬度
+    var longitude = that.data.longitude;
+    var latitude = that.data.latitude;
+    //举报地址
+    var address = that.data.address;
+     //问题分类
+    var qustionSort = that.data.showProblemType;
     var sortIds = '';
     for (let i = 0; i < qustionSort.length; i++) {
       sortIds += qustionSort[i].id + ','
     }
     sortIds = sortIds.substring(0, sortIds.length - 1)
+    var resourceList = that.data.resourceList;
+
     //发送请求到后台，存储：经纬度、地址、描述、问题ID 
     wx.request({
       // url: "http://192.168.15.146:8080/home/manage/createAnswer",
-      url: requestUrl+"/home/manage/createAnswer",
+      url: requestUrl+"/home/manage/createAnswer_syn",
       data: {
         "longitude": longitude,
         "latitude": latitude,
@@ -728,7 +780,8 @@ Page({
         "desc": desc,
         "qustionSort": sortIds,
         "openid": openid,
-        "projectId": projectId
+        "projectId": projectId,
+        "resourceListStr":JSON.stringify(resourceList)
       },
       header: {
         'content-type': 'application/x-www-form-urlencoded'
@@ -736,15 +789,19 @@ Page({
       method: 'POST',
       dataType: 'json',
       success(res) {
-        //console.log("answerId:", res);
-        //得到答案id
-        // 执行图片上传递归函数
-        // that.uploadImage(0, res.data.retObj);
-        that.setData({
-          answerId: res.data.retObj
-        })
-        that.uploadImage(res.data.retObj);
-
+          console.log("上传答案结束,",res)
+          if (res.data.status==='success') {
+              wx.reLaunch({
+                url: "../success/success"
+              })
+          }else{
+            wx.showToast({
+              title: res.data.message,
+              icon: 'none',
+              duration: 1000,
+              mask: true
+            })
+          }
       },
       //请求失败
       fail: function(err) {
@@ -752,260 +809,209 @@ Page({
       },
       complete: function() {} //请求完成后执行的函数
     })
-
-    setTimeout(function() {
-      wx.hideLoading()
-    }, 2000)
-
   },
 
-
-  /**
-   * 图片/视频资源上传
-   * @param e(index) 当前图片下标
-   */
-  uploadImage: function(answerId) {
+ //举报图片集合
+  reportImg_syn: function(filePath) {
     var that = this;
-
-    //举报图片集合
-    var reportImg = that.data.imgList;
-    //举报视频集合
-    var reportVideo = that.data.videoList;
-    //地址图片集合
-    var addsImg = that.data.addressImgList;
-    //地址视频集合
-    var addsVideo = that.data.addressVideoList;
-
-    wx.showLoading({
-      title: '资源上传中...',
-      mask: true,
-    })
-    if (reportImg.length > 0) {
-      //举报图片
-      that.reportImg11();
-    }
-    if (reportVideo.length > 0) {
-      //举报视频
-      that.reportVideo11();
-    }
-    if (addsImg.length > 0) {
-      
-      //地址图片
-      that.addsImg11();
-    }
-    if (addsVideo.length > 0) {
-      //地址视频
-      that.addsVideo11();
-    }
-
-
-
-
-    setTimeout(function() {
-      wx.reLaunch({
-        url: "../success/success"
-      })
-    }, 1000)
-
-
-  },
-
-
-  //举报图片集合
-  reportImg11: function() {
-    var that = this;
-    //举报图片集合
-    var reportImg = that.data.imgList;
-    var answerId = that.data.answerId;
-    var i = that.data.i;
-    var success = that.data.success;
-    var fail = that.data.fail;
-    var openid = that.data.openid;
     var requestUrl = that.data.requestUrl;//服务器路径
-    console.log("图片资源携带的openid:？", openid);
-
-    //上传举报图片
-    wx.uploadFile({
-      // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: requestUrl+'/home/manage/upload',
-      filePath: reportImg[i],
-      name: 'reportImg' + i + openid,
-      formData: {
-        'answerId': answerId,
-        'key': 'reportImg' + i + openid,
-        'openid': openid,
-      },
-      success(res) {
-        // 操作成功
-        setTimeout(function() {
-          wx.hideLoading()
-        }, 1000)
-
-        success++;
-      },
-      //请求失败
-      fail: function(err) {
-        fail++;
-      },
-      complete: () => {
-        i++;
-        if (i >= reportImg.length) { //当图片传完时，停止调用     
-          console.log('---上传举报图片执行完毕---');
-          console.log('成功：' + success + " 失败：" + fail);
-        } else { //若图片还没有传完，则继续调用函数
-          that.data.i = i;
-          that.data.success = success;
-          that.data.fail = fail;
-          that.reportImg11();
-        }
-      }
-
-    })
-
-  },
-  //地址图片集合
-  addsImg11: function() {
-    var that = this;
-    //地址图片集合
-    var addsImg = that.data.addressImgList;
-    var answerId = that.data.answerId;
-
-    var i = that.data.i;
-    var success = that.data.success;
-    var fail = that.data.fail;
+    var projectId = that.data.projectId;
     var openid = that.data.openid;
-var requestUrl = that.data.requestUrl;//服务器路径
-
+    var resourceList = that.data.resourceList;
+  
+    //上传举报图片
+    return new Promise((resolve, reject) => {
     wx.uploadFile({
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: requestUrl+'/home/manage/upload',
-      filePath: addsImg[i],
-      name: 'addsImg' + i + openid,
+      url: requestUrl+'/home/manage/upload_syn',
+      name:'reportImg' + openid,
+      filePath: filePath,
       formData: {
-        'answerId': answerId,
-        'key': 'addsImg' + i + openid,
+        'key': 'reportImg' + openid,
         'openid': openid,
+        'projectId':projectId,
+        'type':0
       },
       success(res) {
-        // 操作成功
-        wx.hideLoading();
-        success++;
+         // console.log("后台返回的举报图片数据：", res)
+          var imageMap = JSON.parse(res.data);
+          if (imageMap.url != null && imageMap.url != '') {
+            // 操作成功
+            resolve(res.data)
+              resourceList.push({
+                url: imageMap.url,
+                type: 0,
+                style: 0,
+                delUrl: imageMap.delUrl
+              })
+          } else {
+            wx.showToast({
+              title: '举报图片资源上传失败',
+              icon: 'none',
+              duration: 1000,
+              mask: true
+            })
+          }
+
       },
       //请求失败
       fail: function(err) {
-        fail++;
       },
       complete: () => {
-        i++;
-        if (i >= addsImg.length) { //当图片传完时，停止调用     
-          console.log('---上传地址图片执行完毕---');
-          console.log('成功：' + success + " 失败：" + fail);
-        } else { //若图片还没有传完，则继续调用函数
-          that.data.i = i;
-          that.data.success = success;
-          that.data.fail = fail;
-          that.addsImg11();
-        }
+        console.log('---上传举报图片执行完毕---');
       }
-
+      })
     })
-
   },
   //举报视频集合
-  reportVideo11: function() {
+  reportVideo_syn: function(filePath) {
     var that = this;
-    //举报视频集合
-    var reportVideo = that.data.videoList;
-    var answerId = that.data.answerId;
-
-    var i = that.data.i;
-    var success = that.data.success;
-    var fail = that.data.fail;
+    var requestUrl = that.data.requestUrl;//服务器路径
+    var projectId = that.data.projectId;
     var openid = that.data.openid;
-var requestUrl = that.data.requestUrl;//服务器路径
+    var resourceList = that.data.resourceList;
+     return new Promise((resolve, reject) => {
     wx.uploadFile({
-      url: requestUrl+'/home/manage/upload',
+      url: requestUrl+'/home/manage/upload_syn',
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      filePath: reportVideo[i].src,
-      name: 'reportVideo' + i + openid,
+      filePath: filePath,
+      name:'reportVideo' + openid,
       formData: {
-        'answerId': answerId,
-        'key': 'reportVideo' + i + openid,
+        'key': 'reportVideo'+ openid,
         'openid': openid,
+        'projectId':projectId,
+        'type':2
       },
       success(res) {
-        // 操作成功
-        wx.hideLoading();
-        success++;
+         // console.log("后台返回的举报视频片数据：", res)
+          var imageMap = JSON.parse(res.data);
+          if (imageMap.url != null && imageMap.url != '') {
+            // 操作成功
+            resolve(res.data)
+              resourceList.push({
+                url: imageMap.url,
+                type: 2,
+                style: 0,
+                delUrl: imageMap.delUrl
+              })
+          } else {
+            wx.showToast({
+              title: '举报视频资源上传失败',
+              icon: 'none',
+              duration: 1000,
+              mask: true
+            })
+          }
       },
       //请求失败
       fail: function(err) {
-        fail++;
       },
       complete: () => {
-        i++;
-        if (i >= reportVideo.length) { //当图片传完时，停止调用     
-          console.log('上传举报视频执行完毕');
-          console.log('成功：' + success + " 失败：" + fail);
-        } else { //若图片还没有传完，则继续调用函数
-          that.data.i = i;
-          that.data.success = success;
-          that.data.fail = fail;
-          that.reportVideo11();
-        }
+        console.log('上传举报视频执行完毕');
       }
 
     })
-
-
+    })
   },
-  //地址视频集合
-  addsVideo11: function() {
-
+   //地址图片集合
+  addsImg_syn: function(filePath) {
     var that = this;
-    //地址视频集合
-    var addsVideo = that.data.addressVideoList;
-    var answerId = that.data.answerId;
-
-    var i = that.data.i;
-    var success = that.data.success0;
-    var fail = that.data.fail;
+    var requestUrl = that.data.requestUrl;//服务器路径
+    var projectId = that.data.projectId;
     var openid = that.data.openid;
-var requestUrl = that.data.requestUrl;//服务器路径
+    var resourceList = that.data.resourceList;
+     return new Promise((resolve, reject) => {
     wx.uploadFile({
       // url: 'http://192.168.15.146:8080/home/manage/upload',
-      url: requestUrl+'/home/manage/upload',
-      filePath: addsVideo[i].src,
-      name: 'addsVideo' + i + openid,
+      url: requestUrl+'/home/manage/upload_syn',
+      filePath: filePath,
+      name:'addsImg' + openid,
       formData: {
-        'answerId': answerId,
-        'key': 'addsVideo' + i + openid,
+        'key': 'addsImg' + openid,
         'openid': openid,
+        'projectId':projectId,
+        'type':0
       },
       success(res) {
-        // 操作成功
-        wx.hideLoading();
-        success++;
+         // console.log("后台返回的地址图片数据：", res)
+          var imageMap = JSON.parse(res.data);
+          if (imageMap.url != null && imageMap.url != '') {
+            // 操作成功
+            resolve(res.data)
+              resourceList.push({
+                url: imageMap.url,
+                type: 0,
+                style: 1,
+                delUrl: imageMap.delUrl
+              })
+          } else {
+            wx.showToast({
+              title: '地址图片资源上传失败',
+              icon: 'none',
+              duration: 1000,
+              mask: true
+            })
+          }
       },
       //请求失败
       fail: function(err) {
-        fail++;
       },
       complete: () => {
-        i++;
-        if (i >= addsVideo.length) { //当图片传完时，停止调用     
+          console.log('---上传地址图片执行完毕---');
+        }
+    })
+     })
+  },
+  //地址视频
+  addsVideo_syn: function(filePath) {
+    var that = this;
+    var requestUrl = that.data.requestUrl;//服务器路径
+    var projectId = that.data.projectId;
+    var openid = that.data.openid;
+    var resourceList = that.data.resourceList;
+     return new Promise((resolve, reject) => {
+    wx.uploadFile({
+      // url: 'http://192.168.15.146:8080/home/manage/upload',
+      url: requestUrl+'/home/manage/upload_syn',
+      filePath: filePath,
+      name:'addsVideo' + openid,
+      formData: {
+        'key': 'addsVideo'+ openid,
+        'projectId':projectId,
+        'openid': openid,
+        'type':2
+      },
+      success(res) {
+         // console.log("后台返回的地址视频数据：", res)
+          var imageMap = JSON.parse(res.data);
+          if (imageMap.url != null && imageMap.url != '') {
+            // 操作成功
+            resolve(res.data)
+              resourceList.push({
+                url: imageMap.url,
+                type: 2,
+                style: 1,
+                delUrl: imageMap.delUrl
+              })
+          } else {
+            wx.showToast({
+              title: '地址视频资源上传失败',
+              icon: 'none',
+              duration: 1000,
+              mask: true
+            })
+          }
+      },
+      //请求失败
+      fail: function(err) {
+      },
+      complete: () => {
           console.log('上传地址视频执行完毕');
-          console.log('成功：' + success + " 失败：" + fail);
-        } else { //若图片还没有传完，则继续调用函数
-          that.data.i = i;
-          that.data.success = success;
-          that.data.fail = fail;
-          that.addsVideo11();
-        }
       }
 
-
+    })
     })
   },
+
 
 })
