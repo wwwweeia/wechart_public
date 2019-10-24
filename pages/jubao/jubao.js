@@ -67,7 +67,8 @@ Page({
     userCity: '',
     bottomButtonDisabled: false, // 底部按钮disabled
     recording: false,  // 正在录音
-    recordStatus: 0  // 状态： 0 - 录音中 1- 翻译中 2 - 翻译完成/二次翻译
+    recordStatus: 0,  // 状态： 0 - 录音中 1- 翻译中 2 - 翻译完成/二次翻译
+    resourceList: [], // 封装资源列表
   },
 
   /**

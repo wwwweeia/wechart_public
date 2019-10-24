@@ -77,8 +77,8 @@ var requestUrl = app.globalData.requestUrl;
     var imgSrc = '';
     var taskRecord = that.data.taskRecord;
     var requestUrl = that.data.requestUrl;
-    console.log("这是咋回事：", id)
-    console.log("这是咋回事：", requestUrl)
+    // console.log("这是咋回事：", id)
+    // console.log("这是咋回事：", requestUrl)
     wx.request({
       url: requestUrl+"/home/manage/searchTaskInfo",
       data:{
@@ -87,7 +87,7 @@ var requestUrl = app.globalData.requestUrl;
       // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=" + id,
       success(res) {
         if (res.data.status === "success") {
-
+          console.log("任务详情：",res.data.retObj)
           that.setData({
 
             retObj: res.data.retObj,
@@ -107,7 +107,7 @@ var requestUrl = app.globalData.requestUrl;
             //imgSrc: res.data.retObj.taskRecord.imgSrc
           })
 
-          console.log("reportImgSrc:", that.data.reportImgSrc)
+          // console.log("reportImgSrc:", that.data.reportImgSrc)
 
 
         }

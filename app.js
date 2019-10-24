@@ -12,8 +12,9 @@ App({
         if (res.code) {
           //发起网络请求
           wx.request({
-            // url: 'https://test.diaochaonline.com/member/manage/userLogin',
-            url: 'http://192.168.15.147:8080/member/manage/userLogin',
+            url: 'http://192.168.15.147:8087/member/manage/userLogin',
+            // url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
+            // url: 'http://47.92.38.70:8285/member/manage/userLogin',
             method: "GET",
             header: {
               "Content-Type": "application/json"
@@ -78,10 +79,10 @@ App({
   },
     globalData: {
     userInfo: null,
-      
-      requestUrl: 'http://192.168.15.147:8080'
-      // requestUrl:'http://221.216.95.200:8285'
-      // requestUrl:'https://test.diaochaonline.com'
+      // requestUrl:'http://47.92.38.70:8285'//线上
+      requestUrl: 'http://192.168.15.147:8087'//本地
+      // requestUrl:'http://221.216.95.200:8285'//35
+      // requestUrl:'https://wxpu.diaochaonline.com'
   }
    
 })
