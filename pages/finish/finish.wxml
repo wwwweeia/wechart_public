@@ -59,12 +59,12 @@
 </view>
 
 <!-- 地址图片/视频 -->
-<view class="cu-bar  solid-bottom">
+<view class="cu-bar  solid-bottom" wx:if="{{addstImgSrc.length!=0}}">
   <view class="action">
     <text class="cuIcon-title text-blue"></text>地址图片/视频
   </view>
 </view>
-<view class="cu-form-group">
+<view class="cu-form-group" wx:if="{{addstImgSrc.length!=0}}">
   <view class="grid col-4 grid-square flex-sub">
     <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{addstImgSrc[index]}}">
       <image class="imgeaaa" src='{{addstImgSrc[index]}}' mode='aspectFill'></image>

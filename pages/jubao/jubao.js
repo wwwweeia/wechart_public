@@ -691,7 +691,10 @@ Page({
       })
       return
     }
-    
+    wx.showLoading({
+      title: '上传中',
+      mask: true
+    })
     //举报图片
      for (var index = 0; index < reportImg.length; index++) {
       await that.reportImg_syn(reportImg[index]).then((res) => {
@@ -716,7 +719,7 @@ Page({
         console.log("地址视频上传完了resourceList:",that.data.resourceList);
       })
     }
-
+    wx.hideLoading();
     var length = reportImg.length + reportVideo.length + addsImg.length + addsVideo.length;
 
     // 上传成功的资源长度
@@ -725,12 +728,12 @@ Page({
     console.log("本地总资源:", length)
     // 资源全部上传成功 上传答案
     if (length == rsLength) {
-      wx.showToast({
-        title: '资源上传中',
-        icon: 'none',
-        duration: 1000,
-        mask: true
-      })
+      // wx.showToast({
+      //   title: '资源上传中',
+      //   icon: 'none',
+      //   duration: 1000,
+      //   mask: true
+      // })
       that.uploadAnswerTrue();
     } else { //有资源上传失败
       wx.showToast({
