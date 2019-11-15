@@ -17,8 +17,8 @@ Page({
     address: "正在获取地址...",
     longitude: 116.397452,
     latitude: 39.909042,
-    key: 'W4WBZ-TUD65-IDAIR-QPM36-HMFQ5-CGBZP',
-
+    // key: 'W4WBZ-TUD65-IDAIR-QPM36-HMFQ5-CGBZP',
+    key:'HLKBZ-4DQLK-W2CJS-AUXAC-Y4433-JLF64',
     //框架属性
     CustomBar: app.globalData.CustomBar,
     //分类显示判断标志
@@ -65,6 +65,9 @@ Page({
     recording: false,  // 正在录音
     recordStatus: 0,  // 状态： 0 - 录音中 1- 翻译中 2 - 翻译完成/二次翻译
     resourceList: [], // 封装资源列表
+    hidden:false,
+    hiddenUser:false,
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
   },
 
   /**
@@ -74,6 +77,19 @@ Page({
     var requestUrl = app.globalData.requestUrl;
      var openid = app.openid;
     var projectId = wx.getStorageSync('projectId');
+    var nickname =  wx.getStorageSync('nickname');
+     console.log("nickname",nickname)
+     if (nickname) {
+      // console.log("有值")
+      this.setData({
+        hidden:true
+      })
+     }else{
+      // console.log("无值")
+      this.setData({
+        hiddenUser:true
+      })
+     }
     this.setData({
       requestUrl:requestUrl,
       openid:openid,
@@ -85,6 +101,75 @@ Page({
     });
     this.currentLocation();
     this.getProblemType();
+  },
+  bindGetUserInfo: function (res) {
+
+    if (res.detail.userInfo) {
+      //用户按了允许授权按钮
+      var that = this;
+      // 获取到用户的信息了，打印到控制台上看下
+      // console.log("信息如下：",res);
+      console.log(res.detail.userInfo);
+      //授权成功后,通过改变 hidden 的值，让实现页面显示出来，把授权页面隐藏起来
+      that.setData({
+        hidden: true,
+        hiddenUser: false
+      });
+      var requestUrl = that.data.requestUrl;
+      var city = res.detail.userInfo.city;
+      var country = res.detail.userInfo.country;
+      var gender = res.detail.userInfo.gender;
+      var language = res.detail.userInfo.language;
+      var nickName = res.detail.userInfo.nickName;
+      var province = res.detail.userInfo.province;
+      var openid = that.data.openid;
+
+      wx.request({
+        // 必需
+        url: requestUrl+'/member/manage/saveUser',
+        data: {
+          city:city,
+          country:country,
+          gender:gender,
+          language:language,
+          nickName:nickName,
+          province:province,
+          openid:openid
+        },
+        method:"POST",
+        header: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        success: (res) => {
+          console.log(res)
+          if (res.data.status==="success") {
+            console.log("保存成功")
+          }
+        },
+        fail: (res) => {
+          
+        },
+        complete: (res) => {
+          
+        }
+      })
+
+
+    } else {
+      //用户按了拒绝按钮
+      wx.showModal({
+        title: '警告',
+        content: '您点击了拒绝授权，将无法上报问题，请授权!!!',
+        showCancel: false,
+        confirmText: '返回授权',
+        success: function (res) {
+          // 用户没有授权成功，不需要改变 isHide 的值
+          if (res.confirm) {
+            console.log('用户点击了“返回授权”');
+          }
+        }
+      });
+    }
   },
   /**
      * 按住按钮开始语音识别

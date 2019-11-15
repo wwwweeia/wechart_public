@@ -12,8 +12,8 @@ App({
         if (res.code) {
           //发起网络请求
           wx.request({
-            // url: 'http://192.168.15.147:8087/member/manage/userLogin',
-            url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
+            url: 'http://192.168.15.147:8087/member/manage/userLogin',
+            // url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
             // url: 'http://47.92.38.70:8285/member/manage/userLogin',
             method: "GET",
             header: {
@@ -30,13 +30,15 @@ App({
                 app.openid = res.data.retObj.openid;
                 app.projectId = res.data.retObj.projectId;
                 app.sessionKey = res.data.retObj.sessionKey;
+                app.nickname = res.data.retObj.nickname;
                 app.projectLat = res.data.retObj.projectLat;
                 app.projectLog = res.data.retObj.projectLog;
                 // app.judge = res.data.retObj.openid;
                 wx.setStorageSync('projectId', app.projectId)
+                wx.setStorageSync('nickname', app.nickname)
                 wx.setStorageSync('projectLat', app.projectLat)
                 wx.setStorageSync('projectLog', app.projectLog)
-                console.log("这是初始化projectId：", app.projectId)
+                console.log("这是初始化nickname：", app.nickname)
                 console.log("这是初始化openid：", app.openid)
               } else {
                 console.log('error')
@@ -80,9 +82,9 @@ App({
     globalData: {
     userInfo: null,
       // requestUrl:'http://47.92.38.70:8285'//线上
-      // requestUrl: 'http://192.168.15.147:8087'//本地
+      requestUrl: 'http://192.168.15.147:8087'//本地
       // requestUrl:'http://221.216.95.200:8285'//35
-      requestUrl:'https://wxpu.diaochaonline.com'
+      // requestUrl:'https://wxpu.diaochaonline.com'
   }
    
 })

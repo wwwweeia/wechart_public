@@ -160,7 +160,20 @@
   <textarea  value="{{desc}}"  maxlength="-1"  bindinput="textareaAInput" placeholder="请输入举报内容" ></textarea>
 </view>
 <button type="primary" class="cu-btn block bg-blue margin-tb-sm lg" button-disabled="{{bottomButtonDisabled}}" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd">按下录音，语音转换</button>
-<button class="cu-btn block bg-blue margin-tb-sm lg" bindtap='submit_syn'>提交</button>
+<button hidden="{{hiddenUser}}" class="cu-btn block bg-blue margin-tb-sm lg" bindtap='submit_syn'>提交</button>
+
+
+
+<view wx:if="{{canIUse}}" hidden="{{hidden}}" >
+    <button class='cu-btn block bg-blue margin-tb-sm lg'  type='primary' open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo'>微信授权</button>
+</view>
+<view wx:else>请升级微信版本</view>  
+
+
+
+
+
+
 
 <view class="cu-modal {{modalName=='Modal'?'show':''}}">
   <view class="cu-dialog">
