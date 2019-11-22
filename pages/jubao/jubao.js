@@ -717,6 +717,7 @@ Page({
     })
   },
   textareaAInput(e) {
+    console.log(e.detail.value)
     this.data.desc = e.detail.value;
   },
   hideModal(e) {

@@ -19,11 +19,11 @@
 
 <view class="cu-form-group">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{reportImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{reportImgSrc[index]}}">
+    <view class="bg-img" wx:for="{{reportImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForReport" data-url="{{reportImgSrc[index]}}">
       <image class="imgeaaa" src='{{reportImgSrc[index]}}' mode='aspectFill'></image>
     </view>
-    <view class="bg-img" wx:for="{{reportVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{reportVideoSrc[index]}}" data-index="{{index}}">
-      <video class="imgeaaa" id='reportVideo{{index}}' src="{{reportVideoSrc}}" poster="{{reportVideoSrc[index].poster}}" bindfullscreenchange="start">
+    <view class="bg-img" wx:for="{{reportVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForReport" data-url="{{reportVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='reportVideo{{index}}' src="{{reportVideoSrc}}" poster="{{reportVideoSrc[index].poster}}">
       </video>
     </view>
   </view>
@@ -37,11 +37,11 @@
 </view>
 <view class="cu-form-group" wx:if="{{addstImgSrc.length!=0}}">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{addstImgSrc[index]}}">
+    <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreportAdds" data-url="{{addstImgSrc[index]}}">
       <image class="imgeaaa" src='{{addstImgSrc[index]}}' mode='aspectFill'></image>
     </view>
-    <view class="bg-img" wx:for="{{addsVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{addsVideoSrc[index]}}" data-index="{{index}}">
-      <video class="imgeaaa" id='reportVideo{{index}}' src="{{addsVideoSrc}}" poster="{{addsVideoSrc[index].poster}}" bindfullscreenchange="start">
+    <view class="bg-img" wx:for="{{addsVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForAdds" data-url="{{addsVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='reportVideo{{index}}' src="{{addsVideoSrc}}" poster="{{addsVideoSrc[index].poster}}">
       </video>
     </view>
 

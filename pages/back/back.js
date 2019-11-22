@@ -43,30 +43,38 @@ Page({
     that.detail(id);
 
   },
-  ViewImageForreport(e) {
+  //查看 图片 举报图片
+  ViewImageForReport(e) {
     // console.log("图片数据：", e);
     wx.previewImage({
       urls: this.data.reportImgSrc,
       current: e.currentTarget.dataset.url
     });
   },
-  ViewVideoForreport(e) {
-    //console.log("视频数据：",e);
-    this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
-    this.VideoContext.requestFullScreen(0);
-  },
-  ViewImageForreport1(e) {
-    // console.log("图片数据11：", e.currentTarget.dataset.url);
+//查看 图片 地址图片
+  ViewImageForreportAdds(e) {
+    // console.log("图片数据：", e);
     wx.previewImage({
-      urls: this.data.reportImgSrc,
+      urls: this.data.addstImgSrc,
       current: e.currentTarget.dataset.url
     });
   },
-  ViewVideoForreport1(e) {
-    // console.log("视频数据：",e);
+
+
+  ViewVideoForReport(e) {
+    //console.log("视频数据：",e);
     this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
     this.VideoContext.requestFullScreen(0);
+    // this.VideoContext.play(e.currentTarget.dataset.url);
   },
+
+  ViewVideoForAdds(e) {
+    // console.log("视频数据：", e);
+    this.VideoContext = wx.createVideoContext('addVideo' + e.currentTarget.dataset.index);
+    this.VideoContext.requestFullScreen(0);
+    // this.VideoContext.play(e.currentTarget.dataset.url);
+  },
+
 
   //发送请求获取数据
   detail: function(id) {

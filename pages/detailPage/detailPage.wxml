@@ -46,11 +46,11 @@
 
 <view class="cu-form-group">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{reportImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{reportImgSrc[index]}}">
+    <view class="bg-img" wx:for="{{reportImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForReport" data-url="{{reportImgSrc[index]}}">
       <image class="imgeaaa" src='{{reportImgSrc[index]}}' mode='aspectFill'></image>
     </view>
-    <view class="bg-img" wx:for="{{reportVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{reportVideoSrc[index]}}" data-index="{{index}}">
-      <video class="imgeaaa" id='reportVideo{{index}}' src="{{reportVideoSrc}}" poster="{{reportVideoSrc[index].poster}}" bindfullscreenchange="start">
+    <view class="bg-img" wx:for="{{reportVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForReport" data-url="{{reportVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='reportVideo{{index}}' src="{{reportVideoSrc}}" poster="{{reportVideoSrc[index].poster}}">
       </video>
     </view>
 
@@ -66,11 +66,11 @@
 </view>
 <view class="cu-form-group" wx:if="{{addstImgSrc.length!=0}}">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{addstImgSrc[index]}}">
+    <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreportAdds" data-url="{{addstImgSrc[index]}}">
       <image class="imgeaaa" src='{{addstImgSrc[index]}}' mode='aspectFill'></image>
     </view>
-    <view class="bg-img" wx:for="{{addsVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{addsVideoSrc[index]}}" data-index="{{index}}">
-      <video class="imgeaaa" id='reportVideo{{index}}' src="{{addsVideoSrc}}" poster="{{addsVideoSrc[index].poster}}" bindfullscreenchange="start">
+    <view class="bg-img" wx:for="{{addsVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForAdds" data-url="{{addsVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='addVideo{{index}}' src="{{addsVideoSrc}}" poster="{{addsVideoSrc[index].poster}}" >
       </video>
     </view>
 
@@ -102,21 +102,21 @@
 
 
 <view class="cu-timeline">
-  <view class="cu-item {{index+1==length?'text-green':''}}" wx:for="{{taskRecord}}" wx:key="{{index}}">
+  <view class="cu-item {{idx+1==length?'text-green':''}}" wx:for="{{taskRecord}}" wx:key="{{idx}}" wx:for-index="idx">
     <view class="content ">
-     <text class="{{index+1==length?'text-green':''}}">{{taskRecord[index].remarks}}</text>
+     <text class="{{idx+1==length?'text-green':''}}">{{taskRecord[idx].remarks}}</text>
     </view>
 
-    <text>{{taskRecord[index].createTimeFormat}}</text>
+    <text>{{taskRecord[idx].createTimeFormat}}</text>
 
-    <view class="cu-form-group" wx:if="{{taskRecord[index].hava_resource===1}}">
+    <view class="cu-form-group" wx:if="{{taskRecord[idx].hava_resource===1}}">
 
  <view class="grid col-4 grid-square flex-sub">
-<view wx:for="{{taskRecord[index].imgSrc}}" wx:for-item='itemImg' wx:key="{{index}}" class="bg-img" bindtap="ViewImageForreport1" data-url='{{itemImg}}'>
+<view wx:for="{{taskRecord[idx].imgSrc}}" wx:for-item='itemImg' wx:key="{{index}}" class="bg-img"  data-index="{{idx}}" bindtap="ViewImageForreportTask" data-url='{{itemImg}}'>
 <image src='{{itemImg}}' mode='aspectFill'></image>
 </view>
-<view wx:for="{{taskRecord[index].videoSrc}}" wx:for-item='itemVideo' wx:key="{{index}}" class="bg-img" bindtap="ViewVideoForreport1" data-url="{{itemVideo}}" data-index="{{index}}">
-<video id='reportVideo{{index}}' src="{{itemVideo}}" poster="{{videoSrc[index].poster}}" bindfullscreenchange="start">
+<view wx:for="{{taskRecord[idx].videoSrc}}" wx:for-item='itemVideo' wx:key="{{index}}" class="bg-img" bindtap="ViewVideoForTask" data-url="{{itemVideo}}" data-index="{{index}}">
+<video id='taskVideo{{index}}' src="{{itemVideo}}" poster="{{videoSrc[index].poster}}">
 </video>
 </view>
 

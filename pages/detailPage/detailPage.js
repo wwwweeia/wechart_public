@@ -46,31 +46,56 @@ var requestUrl = app.globalData.requestUrl;
     
 
   },
-  ViewImageForreport(e) {
+  //查看 图片 举报图片
+  ViewImageForReport(e) {
     // console.log("图片数据：", e);
     wx.previewImage({
       urls: this.data.reportImgSrc,
       current: e.currentTarget.dataset.url
     });
   },
-  ViewVideoForreport(e) {
-    //console.log("视频数据：",e);
-    this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
-    this.VideoContext.requestFullScreen(0);
-  },
-  ViewImageForreport1(e) {
-    // console.log("图片数据11：", e.currentTarget.dataset.url);
+//查看 图片 地址图片
+  ViewImageForreportAdds(e) {
+    // console.log("图片数据：", e);
     wx.previewImage({
-      urls: this.data.reportImgSrc,
+      urls: this.data.addstImgSrc,
       current: e.currentTarget.dataset.url
     });
   },
-  ViewVideoForreport1(e) {
-    // console.log("视频数据：", e);
-    this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
-    this.VideoContext.requestFullScreen(0);
+  //查看 图片 任务图片
+  ViewImageForreportTask(e) {
+    console.log("图片数据：", e);
+
+    
+    var index = e.currentTarget.dataset.index;
+     console.log("任务视频数据：", this.data.taskRecord[index].imgSrc);
+    wx.previewImage({
+      urls: this.data.taskRecord[index].imgSrc,
+      current: e.currentTarget.dataset.url
+    });
   },
 
+
+  ViewVideoForReport(e) {
+    //console.log("视频数据：",e);
+    this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
+    this.VideoContext.requestFullScreen(0);
+    // this.VideoContext.play(e.currentTarget.dataset.url);
+  },
+
+  ViewVideoForAdds(e) {
+    // console.log("视频数据：", e);
+    this.VideoContext = wx.createVideoContext('addVideo' + e.currentTarget.dataset.index);
+    this.VideoContext.requestFullScreen(0);
+    // this.VideoContext.play(e.currentTarget.dataset.url);
+  },
+
+  ViewVideoForTask(e) {
+    // console.log("视频数据：", e);
+    this.VideoContext = wx.createVideoContext('taskVideo' + e.currentTarget.dataset.index);
+    this.VideoContext.requestFullScreen(0);
+    // this.VideoContext.play(e.currentTarget.dataset.url);
+  },
   //发送请求获取数据
   detail: function(id) {
     var that = this;
@@ -89,7 +114,7 @@ var requestUrl = app.globalData.requestUrl;
         if (res.data.status === "success") {
           console.log("任务详情：",res.data.retObj)
           that.setData({
-
+ 
             retObj: res.data.retObj,
             //问题分类
             sort: res.data.retObj.questionSorts,

@@ -4,10 +4,11 @@ Page({
 
   data: {
     requestUrl: '',//服务器路径
-    tab:[
-     '已完成',"处理中",'已退回',"待审核"
+  
+     tab:[
+     '待审核',"处理中",'已完成',"已退回"
     ],
-    // 问题栏默认值，0-已完成 1-处理中 2-已退回 3-待审核
+  
     TabCur: 0,
     //任务列表初始页（默认1）
     pagenum: 1,
@@ -36,7 +37,7 @@ Page({
     if(openid != null && openid != ''){
       console.log("openid有值,查询数据")
       //初始加载待审核
-       this.back(0,openid);
+       this.finish(3,openid);
     }else{
       // 显示加载图标
       wx.showLoading({
@@ -59,16 +60,25 @@ Page({
         backList: [],
         finishList:[]
     })
+    console.log("现在的id",e.currentTarget.dataset.id)
     var openid = this.data.openid;
     if(openid != null && openid != ''){
-         //1待审核、0已退回
-          if(e.currentTarget.dataset.id === 0 || e.currentTarget.dataset.id === 1){
-            this.back(e.currentTarget.dataset.id,openid);
+      // 0整改达标，1未整改，2整改不达标继续整改，3已整改（待审核)
+      // 已完成    处理中     已退回     待审核
+      // 0和1查任务  2和3查答案 finish是答案
+          if(e.currentTarget.dataset.id === 0){
+            this.finish(3,openid);
           }
-          //2处理中、3已完成
-          if(e.currentTarget.dataset.id === 2 || e.currentTarget.dataset.id === 3){
-            this.finish(e.currentTarget.dataset.id,openid);
+          if(e.currentTarget.dataset.id === 1){
+            this.back(1,openid);
           }
+          if(e.currentTarget.dataset.id === 2){
+            this.back(0,openid);
+          }
+          if(e.currentTarget.dataset.id === 3){
+            this.finish(2,openid);
+          }
+         
     }else{
       // 显示加载图标
       wx.showLoading({
@@ -145,6 +155,7 @@ var requestUrl = that.data.requestUrl;//服务器路径
             maxPageNum: res.data.retObj[0].maxPageNum,
             isNull:''
           })
+          console.log("finishList集合：",that.data.finishList)
         }else{
           that.setData({
             isNull: 'true'
@@ -158,6 +169,7 @@ var requestUrl = that.data.requestUrl;//服务器路径
     //上拉函数
   onReachBottom: function() { //触底开始下一页
     var that = this;
+    var openid = that.data.openid;
     var pagenum = that.data.pagenum + 1; //获取当前页数并+1
     that.setData({
       pagenum: pagenum, //更新当前页数
@@ -166,11 +178,19 @@ var requestUrl = that.data.requestUrl;//服务器路径
     if (that.data.maxPageNum >= pagenum) {
      
      var tab = that.data.TabCur;
-     if(tab === 0 || tab === 1){
-      this.back(tab);
+     if(tab === 0){
+      this.finish(3,openid);
      }
-     if(tab === 2 || tab === 3){
-      this.finish(tab);
+     if(tab === 1){
+      this.back(1,openid);
+     }
+
+     if(tab === 2){
+      this.back(0,openid);
+     }
+
+     if(tab === 3){
+      this.finish(2,openid);
      }
 
       // 显示加载图标
