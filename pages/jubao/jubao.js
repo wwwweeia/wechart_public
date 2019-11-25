@@ -68,6 +68,9 @@ Page({
     hidden:false,
     hiddenUser:false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    addIsShow:true,
+    addIsShowB:true,
+    addIsShowA:false
   },
 
   /**
@@ -102,6 +105,26 @@ Page({
     this.currentLocation();
     this.getProblemType();
   },
+  //地址拍摄的控制
+  addressGoA:function(){
+    this.setData({
+      addIsShow:false,
+      addIsShowA:true,
+      addIsShowB:false
+    })
+  },
+  addressGoB:function(){
+    this.setData({
+      addIsShow:true,
+      addIsShowA:false,
+      addIsShowB:true,
+      addressImgList: [],
+      addressVideoList: []
+    })
+
+  },
+
+
   bindGetUserInfo: function (res) {
 
     if (res.detail.userInfo) {
@@ -292,9 +315,10 @@ Page({
   getProblemType() {
     var projectId = wx.getStorageSync('projectId');
     let that = this;
+    var requestUrl = that.data.requestUrl;
     wx.request({
-      // url: "http://192.168.15.146:8080/home/manage/searchQuestionSorts",
-      url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
+      url: requestUrl+"/home/manage/searchQuestionSorts",
+      // url: "http://221.216.95.200:8285/home/manage/searchQuestionSorts",
       data: {
         "projectId": projectId
       },

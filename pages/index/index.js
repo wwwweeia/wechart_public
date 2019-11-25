@@ -174,7 +174,7 @@ var requestUrl = that.data.requestUrl;
     //console.log(e);
     wx.request({
 
-      url: requestUrl+"/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskListIndex",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "sortId": e,
@@ -211,7 +211,7 @@ var requestUrl = that.data.requestUrl;
 
 var requestUrl = that.data.requestUrl;
     wx.request({
-      url: requestUrl+"/home/manage/searchTaskList",
+      url: requestUrl+"/home/manage/searchTaskListIndex",
       // url: "http://192.168.15.146:8080/home/manage/searchTaskList",
       data: {
         "page": that.data.pagenum,

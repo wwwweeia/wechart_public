@@ -15,7 +15,9 @@
     <text class="cuIcon-title text-blue"></text>地址定位
   </view>
    <view class="action">
-    <button class="cu-btn bg-blue shadow" catchtap="currentLocation">刷新</button>
+    <button class="cu-btn bg-blue shadow" catchtap="currentLocation">刷新</button><text>　</text>
+    <button class="cu-btn bg-blue shadow" hidden="{{addIsShowA}}" bind:tap="addressGoA">地址拍摄</button>
+     <button class="cu-btn bg-blue shadow" hidden="{{addIsShowB}}" bind:tap="addressGoB">取消拍摄</button>
   </view>
 </view>
 
@@ -114,12 +116,12 @@
   </view>
 </view>
 
-<view class="cu-bar  solid-bottom">
+<view class="cu-bar  solid-bottom" hidden="{{addIsShow}}">
   <view class="action">
     <text class="cuIcon-title text-blue"></text>地址图片上传
   </view>
 </view>
-<view class="cu-bar bg-white">
+<view class="cu-bar bg-white" hidden="{{addIsShow}}">
   <view class="action">
     上传图片或视频
   </view>
@@ -127,7 +129,7 @@
     {{addslength}}/2
   </view>
 </view>
-<view class="cu-form-group">
+<view class="cu-form-group" hidden="{{addIsShow}}">
   <view class="grid col-4 grid-square flex-sub">
     <view class="bg-img" wx:for="{{addressImgList}}" wx:key="{{index}}" bindtap="ViewImageForadds" data-url="{{addressImgList[index]}}">
       <image src='{{addressImgList[index]}}' mode='aspectFill'></image>

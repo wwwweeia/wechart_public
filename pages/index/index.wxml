@@ -33,7 +33,7 @@
               <!-- <text class="cu-tag bg-blue light round">等待处理</text> -->
             <text class="text-blue">　等待处理</text>
           </view>
-          <view wx:if="{{item.result==3}}">
+          <view wx:if="{{item.result==3 || item.result==2}}">
             <view class='cu-tag bg-grey light sm round'>{{item.findTime}}
             </view>
             <text class="text-blue">　处理中</text>
