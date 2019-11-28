@@ -23,7 +23,8 @@
     <navigator wx:for="{{taskList}}" wx:key class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}'>
 
       <view class="content">
-        <image src="{{item.imageUrl}}" mode="aspectFill"></image>
+
+        <image src="{{item.imageUrl=='' ? '/images/null.png' : item.imageUrl}}" mode="aspectFill"></image>
         <view class="desc">
           <view class="text-bold text-content1 box">{{item.describe}}</view>
           <view class='text-content text-cut box'>{{item.addr}}</view>

@@ -12,7 +12,7 @@ App({
         if (res.code) {
           //发起网络请求
           wx.request({
-            url: 'http://192.168.15.147:8087/member/manage/userLogin',
+            url: 'https://wmccpu.diaochaonline.com/member/manage/userLogin',
             // url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
             // url: 'http://47.92.38.70:8285/member/manage/userLogin',
             method: "GET",
@@ -40,6 +40,7 @@ App({
                 wx.setStorageSync('projectLog', app.projectLog)
                 console.log("这是初始化nickname：", app.nickname)
                 console.log("这是初始化openid：", app.openid)
+                console.log("项目id", res.data.retObj.projectId)
               } else {
                 console.log('error')
               }
@@ -82,9 +83,11 @@ App({
     globalData: {
     userInfo: null,
       // requestUrl:'http://47.92.38.70:8285'//线上
-      requestUrl: 'http://192.168.15.147:8087'//本地
+      // requestUrl: 'http://192.168.15.147:8087'//本地
       // requestUrl:'http://221.216.95.200:8285'//35
-      // requestUrl:'https://wxpu.diaochaonline.com'
+      // requestUrl:'https://wxpu.diaochaonline.com'//35域名
+      requestUrl: 'https://wmccpu.diaochaonline.com'//线上
+      
   }
    
 })
