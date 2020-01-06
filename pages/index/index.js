@@ -31,14 +31,89 @@ Page({
       requestUrl:requestUrl
     })
     console.log("这是啥",requestUrl)
-    //加载轮播图
-    this.getSwiperList();
-    //加载问题栏
-    this.getProblemType();
-    //默认第一次加载任务列表（全部）
-    this.getTaskListAll();
-
+   var code = wx.getStorageSync('code')
+    console.log("code转过来了吗",code)
+     this.login(code);
+     wx.clearStorage()
   },
+
+
+login(code){
+  // 获取用户信息
+    let that = this;
+    var requestUrl = that.data.requestUrl;
+    if (!code) {
+      var code='0'
+    }
+    wx.login({
+      success(res) {
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: requestUrl+'/member/manage/userLogin',
+            // url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
+            // url: 'http://47.92.38.70:8285/member/manage/userLogin',
+            method: "GET",
+            header: {
+              "Content-Type": "application/json"
+            },
+            data: {
+              // govCode: 'SDHZ',
+               govCode: code,
+               code: res.code
+            },
+            success(res) {
+               console.log("请求用户：",res)
+              if (res.data.status == 'success') {
+                var app = getApp();
+                app.openid = res.data.retObj.openid;
+                app.projectId = res.data.retObj.projectId;
+                app.sessionKey = res.data.retObj.sessionKey;
+                app.nickname = res.data.retObj.nickname;
+                app.projectLat = res.data.retObj.projectLat;
+                app.projectLog = res.data.retObj.projectLog;
+                // app.judge = res.data.retObj.openid;
+                wx.setStorageSync('projectId', app.projectId)
+                wx.setStorageSync('nickname', app.nickname)
+                wx.setStorageSync('projectLat', app.projectLat)
+                wx.setStorageSync('projectLog', app.projectLog)
+                console.log("这是初始化nickname：", app.nickname)
+                console.log("这是初始化openid：", app.openid)
+                console.log("项目id", res.data.retObj.projectId);
+               
+                //用户没有绑定政府
+                if(res.data.retObj.isGodCode==="false"){
+                  wx.showToast({
+                    title: '跳转中',
+                    icon: 'loading',
+                    duration: 6000
+                  })
+                  wx.reLaunch({
+                        url: '../tip/tip'
+                      })
+                  
+                }else{
+                  //加载轮播图
+                    that.getSwiperList();
+                    //加载问题栏
+                    that.getProblemType();
+                    //默认第一次加载任务列表（全部）
+                    that.getTaskListAll();
+                }
+                
+              } else {
+                console.log('error')
+              }
+
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+},
+
 
   bindchange(e) {
     this.setData({
@@ -77,6 +152,7 @@ Page({
    */
   getSwiperList() {
     var projectId = wx.getStorageSync('projectId')
+    console.log("项目idsdaddafsfadfsads",projectId)
     // console.log(projectId)
     let that = this;
     var requestUrl = that.data.requestUrl;

@@ -1,6 +1,6 @@
 <!-- 轮播图-->
 <swiper class='swiperClass' autoplay indicator-color="#a39f99" indicator-active-color="#f49641" interval="4000" duration="1000" previous-margin="80rpx" next-margin="80rpx" circular bindchange="bindchange" style='height: {{swiperHeight}}rpx'>
-  <block wx:for="{{swiperList}}" wx:key="{{index}}">
+  <block wx:for="{{swiperList}}" wx:key="index">
     <swiper-item>
       <image bindtap='toswiper' src="{{item.imageUrl}}" data-id="{{item.id}}" class="slide-image {{swiperIndex == index ? 'active' : 'quiet'}}" mode='aspectFill'></image>
     </swiper-item>
@@ -10,17 +10,17 @@
 
   <!-- 导航栏-->
   <scroll-view scroll-x class="bg-white nav" scroll-with-animation scroll-left="{{scrollLeft}}">
-    <view class="cu-item {{null==TabCur?'text-blue cur':'text-grey'}} cu-btn round linebordersize   " bindtap="tabSelect">
+    <view wx:if="{{problemType.length>0}}" class="cu-item {{null==TabCur?'text-blue cur':'text-grey'}} cu-btn round linebordersize   " bindtap="tabSelect">
       全部
     </view>
-    <view class="cu-item {{item.id==TabCur?'text-blue cur':'text-grey'}} cu-btn  round linebordersize  " wx:for="{{problemType}}" wx:key bindtap="tabSelect" data-id="{{item.id}}">
+    <view class="cu-item {{item.id==TabCur?'text-blue cur':'text-grey'}} cu-btn  round linebordersize  " wx:for="{{problemType}}" wx:key="index" bindtap="tabSelect" data-id="{{item.id}}">
       {{item.name}}
     </view>
   </scroll-view>
 
   <!-- 任务列表 -->
   <view class="cu-card article">
-    <navigator wx:for="{{taskList}}" wx:key class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}'>
+    <navigator wx:for="{{taskList}}" wx:key="index" class="cu-item shadow" url='../detailPage/detailPage?id={{item.taskId}}'>
 
       <view class="content">
 

@@ -23,7 +23,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.9.4",
+	"libVersion": "2.10.0",
 	"appid": "wxfe404812ffb36d6a",
 	"projectname": "wx-public",
 	"debugOptions": {
@@ -47,6 +47,10 @@
 		},
 		"game": {
 			"currentL": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
 			"list": []
 		},
 		"miniprogram": {
@@ -102,9 +106,23 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 7,
 					"name": "测试页面",
 					"pathName": "pages/ceshi/ceshi",
+					"query": "url=https://wmccpu.diaochaonline.com/B/^SDHZ",
+					"scene": null
+				},
+				{
+					"id": 8,
+					"name": "转发测试",
+					"pathName": "pages/menuBack/menuBack",
+					"query": "code=TJBS",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "提示页",
+					"pathName": "pages/tip/tip",
 					"query": "",
 					"scene": null
 				}

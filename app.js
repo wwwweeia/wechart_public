@@ -5,52 +5,7 @@ App({
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    // 获取用户信息
-    let that = this;
-    wx.login({
-      success(res) {
-        if (res.code) {
-          //发起网络请求
-          wx.request({
-            url: 'https://wmccpu.diaochaonline.com/member/manage/userLogin',
-            // url: 'https://wxpu.diaochaonline.com/member/manage/userLogin',
-            // url: 'http://47.92.38.70:8285/member/manage/userLogin',
-            method: "GET",
-            header: {
-              "Content-Type": "application/json"
-            },
-            data: {
-              govCode: 'TJBS',
-              code: res.code
-            },
-            success(res) {
-               console.log("请求用户：",res)
-              if (res.data.status == 'success') {
-                var app = getApp();
-                app.openid = res.data.retObj.openid;
-                app.projectId = res.data.retObj.projectId;
-                app.sessionKey = res.data.retObj.sessionKey;
-                app.nickname = res.data.retObj.nickname;
-                app.projectLat = res.data.retObj.projectLat;
-                app.projectLog = res.data.retObj.projectLog;
-                // app.judge = res.data.retObj.openid;
-                wx.setStorageSync('projectId', app.projectId)
-                wx.setStorageSync('nickname', app.nickname)
-                wx.setStorageSync('projectLat', app.projectLat)
-                wx.setStorageSync('projectLog', app.projectLog)
-                console.log("这是初始化nickname：", app.nickname)
-                console.log("这是初始化openid：", app.openid)
-                console.log("项目id", res.data.retObj.projectId)
-              } else {
-                console.log('error')
-              }
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+    
   
 
   },
@@ -83,10 +38,10 @@ App({
     globalData: {
     userInfo: null,
       // requestUrl:'http://47.92.38.70:8285'//线上
-      // requestUrl: 'http://192.168.15.147:8087'//本地
+      requestUrl: 'http://192.168.15.146:8087'//本地
       // requestUrl:'http://221.216.95.200:8285'//35
       // requestUrl:'https://wxpu.diaochaonline.com'//35域名
-      requestUrl: 'https://wmccpu.diaochaonline.com'//线上
+      // requestUrl: 'https://wmccpu.diaochaonline.com'//线上
       
   }
    

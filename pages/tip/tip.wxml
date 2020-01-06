@@ -1,0 +1,35 @@
+
+
+<view class="container">
+  <view class="tui-news-title">
+    说明
+  </view>
+
+  <view class="tui-news-content">
+  <image src="../../images/haibao.png" class="tui-article-pic" ></image>
+    <view class="tui-article">
+      　亲爱的微信用户您好，感谢您的关注！
+    </view>
+    <view class="tui-article">
+      　为了使您提交的问题得以有效得到当地部门处理，当您第一次进入创城随手拍小程序时请您先关注当地文明办或创文办等创建文明建设部门的公众号，第一次使用需要从公众号入口进入。之后您可进入小程序提交您发现的问题到当地创文办处理。如您所在地发生变化，重新从当地创建文明建设部门的公众号入口进入一次即可。
+    </view>
+     <view class="tui-article">
+      　如您所在地尚未接入该小程序，给您带来的不便敬请谅解。(公众号入口由当地创文办公布，请您关注！)
+    </view>
+    <view class="tui-article">
+      　以下为初次使用该小程序从公众号进入的操作流程:
+    </view>
+    <image  src="../../images/1.png" class="tui-article-pic" ></image>
+    <image  src="../../images/2.png" class="tui-article-pic" ></image>
+    <view class="tui-article">
+      　掏手机报问题，感谢您为创建文明城市(区)做出的贡献！
+    </view>
+
+  </view>
+
+  <view class="tui-news-source">消息参考来源：美兰德</view>
+
+
+</view>
+
+

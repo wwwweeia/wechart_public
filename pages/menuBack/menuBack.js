@@ -12,13 +12,24 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    // var code = options.code;
     console.log("看看这个：", options)
-        var url =  options.url.toString();
-        console.log("url:",url.length)
+    if(options.code){
+      var code = options.code;
+      wx.setStorageSync('code', code)
+       console.log("微信平台跳转code：",code)
+    }else{
+        var url =  decodeURIComponent(options.q);
         // var code =  url.substr(url.length-4);
          var arr =  url.split("^");
          var code = arr[1].toString();
-        console.log("code：",code)
+        wx.setStorageSync('code', code)
+        console.log("二维码跳转code：",code)
+    }
+
+    wx.switchTab({
+      url: '../index/index'
+    })
   },
 
   /**

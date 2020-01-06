@@ -10,7 +10,9 @@
     "pages/back/back",
     "pages/finish/finish",
     "pages/ceshi/ceshi",
-    "pages/about/about"
+    "pages/about/about",
+    "pages/menuBack/menuBack",
+    "pages/tip/tip"
   ],
   "window": {
     "backgroundTextStyle": "light",

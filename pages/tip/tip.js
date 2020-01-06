@@ -1,24 +1,18 @@
-// pages/menuBack/menuBack.js
+// pages/tip/tip.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var that = this;
-    console.log("看看这个：", options)
-        var url =  options.url.toString();
-        console.log("url:",url.length)
-        // var code =  url.substr(url.length-4);
-         var arr =  url.split("^");
-         var code = arr[1].toString();
-        console.log("code：",code)
+
   },
 
   /**
