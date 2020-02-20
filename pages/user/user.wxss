@@ -1,0 +1,77 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+.headImageView {
+  margin: 90rpx 50rpx 90rpx 50rpx;
+}
+
+.headImageView {
+  display: block;
+  margin-left: 25px;
+  margin-top: 25px;
+  margin-right: 25px;
+  margin-bottom: 0px;
+  height: 50px;
+}
+
+.headImage{
+  display: fles;
+  width: 50px;
+  height: 50px;
+}
+
+.titleText {
+  margin-left: 25px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #020e0f;
+  text-align:center;
+}
+.contentText {
+  margin-left: 25px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: 14px;
+  color: #666;
+  text-align:center;
+}
+
+.authBtn{
+  margin-top: 35px;
+  margin-left: 25px;
+  margin-right: 25px;
+  height: 45px;
+  font-size: 17.5px;
+}
+.copyright {
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    margin-bottom: 200rpx;
+    margin-top: 100rpx;
+}
+.icon {
+    height: 150rpx;
+    width: 150rpx;
+    border-radius: 50%;
+    overflow: hidden;
+}

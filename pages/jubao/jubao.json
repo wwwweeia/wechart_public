@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "上报",
+    "usingComponents": {
+    "tui-toast": "../../colorui/components/extend/toast/toast",
+    "tui-button": "../../colorui/components/extend/button/button"
+  }
+}

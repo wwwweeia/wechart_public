@@ -1,0 +1,196 @@
+
+<!-- 地图 -->
+<view class="container padding bg-white " hover-stop-propagation="false" hover-class="none">
+  <!-- 地图控件 -->
+  <map id="maps" longitude="{{longitude}}" latitude="{{latitude}}" scale="16" show-location bindregionchange="regionchange">
+    <cover-image class="cover-image " src="../../images/location.png" />
+  </map>
+ 
+  
+</view>
+
+<!-- 地址定位 -->
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>地址定位
+  </view>
+   <view class="action">
+    <button class="cu-btn bg-blue shadow" catchtap="currentLocation">刷新</button><text>　</text>
+    <button class="cu-btn bg-blue shadow" hidden="{{addIsShowA}}" bind:tap="addressGoA">地址拍摄</button>
+     <button class="cu-btn bg-blue shadow" hidden="{{addIsShowB}}" bind:tap="addressGoB">取消拍摄</button>
+  </view>
+</view>
+
+
+
+<view class="cu-form-group  bg-white">
+  <input class="weui-input" value="{{address}}" />
+</view>
+
+
+<!-- 提示 -->
+<view >
+    <tui-toast id="tui-tips-ctx"></tui-toast>
+  </view>
+
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报问题分类
+  </view>
+  <view class="action">
+    <button class="cu-btn bg-blue shadow" bindtap="showModal" data-target="ChooseModal">选择</button>
+  </view>
+</view>
+<view class="padding bg-white {{isShow==false?'hide':'show'}}">
+  <view class="text-cut padding bg-white radius" style="width:100%">
+    <view class="flex flex-wrap">
+      <view class="padding-xs" wx:for="{{showProblemType}}" wx:key wx:if="{{item.name!='gray'}}">
+        <view class="cu-tag bg-blue {{item.checked==true?'show':'hide'}}">{{item.name}}</view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-modal bottom-modal {{modalName=='ChooseModal'?'show':''}}" bindtap="hideModal">
+  <view class="cu-dialog" catchtap>
+    <view class="cu-bar bg-white">
+      <view class="action text-blue" bindtap="problemTypeCancel">全部取消</view>
+      <view class="action text-green" bindtap="problemTypeConfirm">确定</view>
+    </view>
+    <view class="grid col-3 padding-sm">
+      <view wx:for="{{problemType}}" class="padding-xs" wx:key="{{index}}">
+        <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" bindtap="ChooseCheckbox" data-value="{{item.id}}"> <view class="box">{{item.name}}1</view>
+          <view class="cu-tag sm round {{item.checked?'bg-white text-orange':'bg-orange'}}" wx:if="{{item.hot}}">HOT</view>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="cu-modal bottom-modal {{modalName=='ChooseModal'?'show':''}}" bindtap="hideModal">
+  <view class="cu-dialog" catchtap>
+    <view class="cu-bar bg-white">
+      <view class="action text-blue" bindtap="problemTypeCancel">全部取消</view>
+      <view class="action text-green" bindtap="problemTypeConfirm">确定</view>
+    </view>
+    <view class="grid col-3 padding-sm">
+      <view wx:for="{{problemType}}" class="padding-xs" wx:key="{{index}}">
+        <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" bindtap="ChooseCheckbox" data-value="{{item.id}}"> <view class="box">{{item.name}}</view>
+          <view class="cu-tag sm round {{item.checked?'bg-white text-orange':'bg-orange'}}" wx:if="{{item.hot}}">HOT</view>
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
+
+
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报图片上传
+  </view>
+</view>
+<view class="cu-bar bg-white">
+  <view class="action">
+    上传图片或视频
+  </view>
+  <view class="action">
+    {{reportlength}}/4
+  </view>
+</view>
+<view class="cu-form-group">
+  <view class="grid col-4 grid-square flex-sub">
+    <view class="bg-img" wx:for="{{imgList}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{imgList[index]}}">
+      <image src='{{imgList[index]}}' mode='aspectFill'></image>
+      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="reportImg">
+        <text class="cuIcon-close"></text>
+      </view>
+    </view>
+    <view class="bg-img" wx:for="{{videoList}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{videoList[index]}}"data-index="{{index}}">
+      <video id='reportVideo{{index}}' src="{{videoList[index].src}}" poster="{{videoList[index].poster}}" bindfullscreenchange="start"></video>
+      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="reportVideo">
+        <text class="cuIcon-close"></text>
+      </view>
+    </view>
+
+    <view class="solids" bindtap="showModal2" wx:if="{{reportlength<4}}" data-target="Modal" data-type="report">
+      <text class="cuIcon-cameraadd"></text>
+    </view>
+  </view>
+</view>
+
+<view class="cu-bar  solid-bottom" hidden="{{addIsShow}}">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>地址图片上传
+  </view>
+</view>
+<view class="cu-bar bg-white" hidden="{{addIsShow}}">
+  <view class="action">
+    上传图片或视频
+  </view>
+  <view class="action">
+    {{addslength}}/2
+  </view>
+</view>
+<view class="cu-form-group" hidden="{{addIsShow}}">
+  <view class="grid col-4 grid-square flex-sub">
+    <view class="bg-img" wx:for="{{addressImgList}}" wx:key="{{index}}" bindtap="ViewImageForadds" data-url="{{addressImgList[index]}}">
+      <image src='{{addressImgList[index]}}' mode='aspectFill'></image>
+      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="addsImg">
+        <text class="cuIcon-close"></text>
+      </view>
+    </view>
+
+    <view class="bg-img" wx:for="{{addressVideoList}}" wx:key="{{index}}" bindtap="ViewVideoForadds" data-url="{{addressVideoList[index]}}" data-index="{{index}}">
+      <video id='addsVideo{{index}}' src="{{addressVideoList[index].src}}" poster="{{addressVideoList[index].poster}}" bindfullscreenchange="start"></video>
+      <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="addsVideo">
+        <text class="cuIcon-close"></text>
+      </view>
+    </view>
+
+
+    <view class="solids" bindtap="showModal2" wx:if="{{addslength<2}}" data-target="Modal" data-type="adds">
+      <text class="cuIcon-cameraadd"></text>
+    </view>
+  </view>
+</view>
+
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报描述
+  </view>
+</view>
+<!-- !!!!! placeholder 在ios表现有偏移 建议使用 第一种样式 -->
+<view class="cu-form-group">
+  <textarea  value="{{desc}}"  maxlength="-1"  bindinput="textareaAInput" placeholder="请输入举报内容" ></textarea>
+</view>
+<button type="primary" class="cu-btn block bg-blue margin-tb-sm lg" button-disabled="{{bottomButtonDisabled}}" bindtouchstart="streamRecord" bindtouchend="streamRecordEnd">按下录音，语音转换</button>
+<button hidden="{{hiddenUser}}" class="cu-btn block bg-blue margin-tb-sm lg" bindtap='submit_syn'>提交</button>
+
+
+
+<view wx:if="{{canIUse}}" hidden="{{hidden}}" >
+    <button class='cu-btn block bg-blue margin-tb-sm lg'  type='primary' open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo'>微信授权</button>
+</view>
+<view wx:else>请升级微信版本</view>  
+
+
+
+
+
+
+
+<view class="cu-modal {{modalName=='Modal'?'show':''}}">
+  <view class="cu-dialog">
+    <view class="cu-bar bg-white justify-end">
+      <!-- <view class="content">Modal标题</view> -->
+      <view class="action" bindtap="hideModal">
+        <text class="cuIcon-close text-red"></text>
+      </view>
+    </view>
+    <!-- <view class="padding-xl justify-end"> -->
+    <view class="padding flex flex-direction">
+      <button class="cu-btn bg-green lg" bindtap='ChooseImage'>上传照片 </button>
+      <button class="cu-btn bg-blue margin-tb-sm lg" bindtap='chooseVideo'>上传视频</button>
+    </view>
+    <!-- </view> -->
+  </view>
+</view>
+

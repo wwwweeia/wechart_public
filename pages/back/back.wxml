@@ -1,0 +1,65 @@
+<!-- 举报分类 -->
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报分类
+  </view>
+</view>
+<view class="cu-bar-neirong bg-white padding-neirong">
+  <view class="action text-black text-left padding" wx:for="{{sort}}" wx:key="index">
+    {{item}}
+  </view>
+</view>
+
+<!-- 举报图片/视频 -->
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报图片/视频
+  </view>
+</view>
+
+<view class="cu-form-group">
+  <view class="grid col-4 grid-square flex-sub">
+    <view class="bg-img" wx:for="{{reportImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForReport" data-url="{{reportImgSrc[index]}}">
+      <image class="imgeaaa" src='{{reportImgSrc[index]}}' mode='aspectFill'></image>
+    </view>
+    <view class="bg-img" wx:for="{{reportVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForReport" data-url="{{reportVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='reportVideo{{index}}' src="{{reportVideoSrc}}" poster="{{reportVideoSrc[index].poster}}">
+      </video>
+    </view>
+  </view>
+</view>
+
+<!-- 地址图片/视频 -->
+<view class="cu-bar  solid-bottom" wx:if="{{addstImgSrc.length!=0}}">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>地址图片/视频
+  </view>
+</view>
+<view class="cu-form-group" wx:if="{{addstImgSrc.length!=0}}">
+  <view class="grid col-4 grid-square flex-sub">
+    <view class="bg-img" wx:for="{{addstImgSrc}}" wx:key="{{index}}" bindtap="ViewImageForreportAdds" data-url="{{addstImgSrc[index]}}">
+      <image class="imgeaaa" src='{{addstImgSrc[index]}}' mode='aspectFill'></image>
+    </view>
+    <view class="bg-img" wx:for="{{addsVideoSrc}}" wx:key="{{index}}" bindtap="ViewVideoForAdds" data-url="{{addsVideoSrc[index]}}" data-index="{{index}}">
+      <video class="imgeaaa" id='reportVideo{{index}}' src="{{addsVideoSrc}}" poster="{{addsVideoSrc[index].poster}}">
+      </video>
+    </view>
+
+  </view>
+</view>
+<!-- 举报内容 -->
+<view class="cu-bar  solid-bottom">
+  <view class="action">
+    <text class="cuIcon-title text-blue"></text>举报内容
+  </view>
+</view>
+<view class="cu-bar bg-white text-center padding-neirong">
+  <view class="action text-black" style="white-space:pre-line">
+    {{retObj.taskRemarks}}
+  </view>
+</view>
+<view class="cu-bar bg-white text-center padding-neirong">
+  <view class="action text-black ">
+    <text class="cuIcon-{{icon}} lg text-blue"></text> {{retObj.taskAdds}}
+  </view>
+</view>

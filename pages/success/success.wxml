@@ -1,0 +1,22 @@
+<!-- bg-white -->
+<view class=" padding-lr">
+
+
+  <view class=" padding-xs flex align-center">
+    <view class="flex-sub text-center">
+      <view class=" text-xsl padding">
+        <text class=" cuIcon-roundcheckfill text-green"></text>
+      </view>
+
+      <view class=" text-xl padding1">
+        <text class=" text-black text-bold">提交成功！</text>
+      </view>
+      <view class="padding2">您所拍到的不文明情况，系统已经收到，非常感谢您为创建文明城市(区)做出的贡献！</view>
+    </view>
+  </view>
+  </view>
+
+<view class="padding3 flex flex-direction">
+  <button class="cu-btn bg-grey lg" bindtap="jubao">我要继续反馈</button>
+  <button class="cu-btn bg-red margin-tb-sm lg" bindtap="index">返回首页</button>
+</view>

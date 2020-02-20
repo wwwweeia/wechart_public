@@ -1,0 +1,50 @@
+<!--index.wxml hidden中变量为false，进行渲染，true进行隐藏-->
+<!-- <view wx:if="{{canIUse}}" hidden="{{hidden}}" >
+  <view class='headView'>
+    <button class='authBtn'  type='primary' open-type='getUserInfo' bindgetuserinfo='bindGetUserInfo'>授权登录</button>
+  </view>
+</view>
+<view wx:else>请升级微信版本</view>	
+ -->
+<!-- 
+<view hidden="{{hidden}}"> -->
+
+<!-- <view class="container bg-white">
+    <image class="userinfo-avatar" src="{{avataUrl}}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{nick}}</text>
+  </view> -->
+ 
+<view class="userinfo bg-white">
+<open-data type="userAvatarUrl"  class="userinfo-avatar icon" style="border-radius: 5000rpx"></open-data>
+<open-data type="userNickName" class="userinfo-nickname"></open-data>
+
+</view>
+
+ 
+<view class="cu-list menu sm-border card-menu margin-top">
+    <view class="cu-item arrow" bindtap="goTojubaodetail">
+      <view class="content">
+        <text class=" cuIcon-warn text-blue"></text>
+        <text class="text-grey">我的举报</text>
+      </view>
+    </view>
+     <!-- <view class="cu-item arrow">
+      <view class="content">
+        <text class="cuIcon-tagfill text-green"></text>
+        <text class="text-grey">xxxxxxx</text>
+      </view>
+    </view> -->
+</view>
+
+<view class="cu-list menu sm-border card-menu margin-top">
+     <view class="cu-item arrow"  bindtap="goToabout">
+      <view class="content">
+      <text class="cuIcon-friendfavor  text-red"></text>
+        <text class="text-grey">关于我们</text>
+      </view>
+    </view>
+</view>
+
+<view class="copyright">
+  <text class="text-grey text-xs">© 北京美兰德信息咨询有限公司 技术支持</text>
+</view>

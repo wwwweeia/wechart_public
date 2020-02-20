@@ -1,0 +1,11 @@
+
+<view class='margin-xl bg-white padding-xl radius shadow-lg'>
+  <view class='text-center margin-bottom text-lg  text-grey'>关于文明创城随手拍小程序</view>
+  <view class='text-content'>
+    <view>　Hi！亲爱的用户~欢迎使用文明创城随手拍小程序！</view>
+    <view class='margin-top-sm'>　本系统旨在建立一套技术先进、可伸缩、具有智能化特征的、综合性的软件系统产品，以满足未来的文明城市创建或城市精细化管理的需要</view>
+    <view class='margin-top-sm'>　因此，该小程序包括实地数据的采集、传输、处理、存储、统计分析并展示等功能。本系统在业务层面上支持文明城市创建过程中的居民信息反馈、统计分析等。</view>
+    <view class='margin-top-sm'>　如您有更好的建议与想法请联系我们，邮箱：xxxxx,电话：xxxxx。٩(๑❛ᴗ❛๑)۶</view>
+    <view class='margin-top-sm'>　更多功能敬请期待！</view>
+  </view>
+</view>

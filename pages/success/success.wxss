@@ -1,0 +1,17 @@
+.text-xsl {
+font-size: 200rpx;
+}
+.padding1 {
+padding: 15rpx;
+
+}
+.padding2 {
+padding: 20rpx;
+
+}
+
+.padding3 {
+padding: 35rpx;
+
+}
+

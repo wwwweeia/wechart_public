@@ -1,0 +1,40 @@
+<!-- 
+
+<view class="container">
+  <view class="tui-news-title">
+    北京美兰德信息咨询有限公司
+  </view>
+
+  <view class="tui-news-content">
+  <image src="http://res1.diaochaonline.com/resource/image/YQW_ff8080815aacbe49015aad679eaa0c8a/HND_ff8080815b198303015b1d40c2a00458/02702-20170331100826.jpg" class="tui-article-pic" ></image>
+    <view class="tui-article">
+      　北京美兰德信息咨询有限公司成立于1994年，是国家统计局批准的甲类涉外调查许可单位，是在世界银行注册的中国社会经济调查服务机构（Vendor No. is 118316），是中国大陆权威的综合性市场调查咨询机构之一。
+    </view>
+    <view class="tui-article">
+      　美兰德调研专注于政府及社会公共事务调研、社会经济发展状况研究。科学调研、服务社会、倾听民意、反映民生是我们的追求。在公共事务研究领域，美兰德为各级政府部门和公共事业单位提供满意度评估与改进、各类政策评估与分析等调研服务，/n　客户面向各级政府部门及卫生、教育、供水、供电、交通等公共事业单位；在社会经济发展研究领域，提供社会经济调研服务，主要服务于国内外大学、科研院所、全国级媒体等机构。
+    </view>
+    <image  src="http://res1.diaochaonline.com/resource/image/YQW_ff8080815aacbe49015aad679eaa0c8a/HND_ff8080815b198303015b1d40c2a00458/02702-20170331100826.jpg" class="tui-article-pic" ></image>
+    <view class="tui-article">
+      　近年来，美兰德运用现代化社会调查手段和分析技术,结合最新的IT技术，融合深厚的专业知识和丰富的行业经验，为客户提供更深入、完善调研信息产品。
+    </view>
+
+  </view>
+
+  <view class="tui-news-source">消息参考来源：美兰德</view>
+
+
+</view> -->
+
+
+<view class="container" >
+  <view class="tui-news-title">
+    {{ArticleList.title}}
+  </view>
+  <view class="tui-news-content">
+  <image class="tui-article-pic" src="{{ArticleList.imgUrl}}" ></image>
+    <view class="tui-article">
+     <text> 　{{list}}</text>
+    </view>
+  </view>
+  <view class="tui-news-source">消息参考来源：美兰德</view>
+</view>
