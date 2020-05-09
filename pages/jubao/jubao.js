@@ -795,6 +795,16 @@ Page({
           }
         }
       })
+     var address = that.data.address;
+     if (address =="正在获取地址...") {
+      wx.showToast({
+        title: '请点击刷新按钮获取位置',
+        icon: 'none',
+        duration: 1000,
+        mask: true
+      })
+      return
+    }
   },
   //提交按钮111
   submit_syn_ready: async function(){
