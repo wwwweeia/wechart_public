@@ -1,6 +1,6 @@
 <scroll-view scroll-x class="bg-white  bg-mauve nav">
   <view class="flex text-center ">
-    <view class="cu-item  flex-sub {{index==TabCur?'text-blue cur':'text-grey'}} cu-btn  round linebordersize" wx:for="{{tab}}" wx:key bindtap="tabSelect" data-id="{{index}}">
+    <view class="cu-item  flex-sub {{index==TabCur?'text-blue cur':'text-grey'}} cu-btn  round linebordersize" wx:for="{{tab}}" wx:key="index" bindtap="tabSelect" data-id="{{index}}">
       {{tab[index]}}
     </view>
   </view>
@@ -8,7 +8,7 @@
 <!-- 待审核、已退回任务列表 -->
  <view class="cu-card article">
  <!-- 这里finishList代表已退回、待审核数据。和字面意思相反 -->
-    <navigator wx:for="{{finishList}}" wx:key class="cu-item shadow" url='../back/back?id={{item.answerId}}'>
+    <navigator wx:for="{{finishList}}" wx:key="index" class="cu-item shadow" url='../back/back?id={{item.answerId}}'>
 
       <view class="content">
         <image src="{{item.imageUrl=='' ? '/images/null.png' : item.imageUrl}}" mode="aspectFill"></image>
@@ -27,7 +27,7 @@
 <!-- 处理中、已完成任务列表 -->
  <view class="cu-card article">
  <!-- 这里backList代表处理中、已完成数据。和字面意思相反 -->
-    <navigator wx:for="{{backList}}" wx:key class="cu-item shadow" url='../finish/finish?id={{item.taskId}}'>
+    <navigator wx:for="{{backList}}" wx:key="index" class="cu-item shadow" url='../finish/finish?id={{item.taskId}}'>
 
       <view class="content">
         <image src="{{item.imageUrl=='' ? '/images/null.png' : item.imageUrl}}" mode="aspectFill"></image>

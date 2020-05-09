@@ -114,9 +114,9 @@
 				},
 				{
 					"id": 8,
-					"name": "转发测试",
+					"name": "pages/menuBack/menuBack",
 					"pathName": "pages/menuBack/menuBack",
-					"query": "code=TJBS",
+					"query": "code=JCS2020",
 					"scene": null
 				},
 				{

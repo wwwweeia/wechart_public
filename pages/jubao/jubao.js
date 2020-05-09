@@ -81,7 +81,7 @@ Page({
      var openid = app.openid;
     var projectId = wx.getStorageSync('projectId');
     var nickname =  wx.getStorageSync('nickname');
-     console.log("nickname",nickname)
+     // console.log("nickname",nickname)
      if (nickname) {
       // console.log("有值")
       this.setData({
@@ -132,7 +132,7 @@ Page({
       var that = this;
       // 获取到用户的信息了，打印到控制台上看下
       // console.log("信息如下：",res);
-      console.log(res.detail.userInfo);
+      // console.log(res.detail.userInfo);
       //授权成功后,通过改变 hidden 的值，让实现页面显示出来，把授权页面隐藏起来
       that.setData({
         hidden: true,
@@ -164,7 +164,7 @@ Page({
           'Content-Type': 'application/x-www-form-urlencoded'
         },
         success: (res) => {
-          console.log(res)
+          // console.log(res)
           if (res.data.status==="success") {
             console.log("保存成功")
           }
@@ -368,7 +368,7 @@ Page({
       },
       success: (res) => {
         // console.log(res)
-        console.log(res.result.formatted_addresses.recommend)
+        // console.log(res.result.formatted_addresses.recommend)
         this.setData({
           address: res.result.formatted_addresses.recommend //res.result.address
         })
@@ -380,9 +380,33 @@ Page({
       }
     })
   },
+  getDps:function(){
+        wx.getSystemInfo({
+        success(res) {
+        var isopendingwei = res.locationEnabled;
+        if(isopendingwei==false){
+            
+            wx.showModal({
+              title: '提示',
+              content: '请先开启手机GPS定位,然后点击刷新按钮重试',
+              showCancel:false,
+              success (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } 
+              }})
+            return
+        }
+      }
+    })
+
+      },
+
   currentLocation() {
     //当前位置
     const that = this;
+    //获取系统权限是否开启
+    that.getDps();
     wx.getLocation({
       type: 'gcj02',
       success(res) {
@@ -431,7 +455,7 @@ Page({
         that.setData({
           projectCity: projectCity
         })
-        console.log("项目地址：",projectCity)
+        // console.log("项目地址：",projectCity)
       }
     })
   },
@@ -674,7 +698,7 @@ Page({
     });
   },
   ViewVideoForreport(e) {
-    console.log("视频的啥？：", e);
+    // console.log("视频的啥？：", e);
     this.VideoContext = wx.createVideoContext('reportVideo' + e.currentTarget.dataset.index);
     this.VideoContext.requestFullScreen(0);
   },
@@ -741,17 +765,39 @@ Page({
     })
   },
   textareaAInput(e) {
-    console.log(e.detail.value)
+    // console.log(e.detail.value)
     this.data.desc = e.detail.value;
   },
   hideModal(e) {
-    console.log("点击了",e)
+    // console.log("点击了",e)
     this.setData({
       modalName: null
     })
   },
+  submit_syn:function(){
+    var  that = this;
+        //获取系统权限是否开启
+     wx.getSystemInfo({
+        success(res) {
+        var isopendingwei = res.locationEnabled;
+        if(isopendingwei==false){
+            wx.showModal({
+              title: '提示',
+              content: '请先开启手机GPS定位,然后点击刷新按钮重试',
+              showCancel:false,
+              success (res) {
+                if (res.confirm) {
+                  console.log('用户点击确定')
+                } 
+              }})
+          }else{
+            that.submit_syn_ready();
+          }
+        }
+      })
+  },
   //提交按钮111
-  submit_syn: async function(){
+  submit_syn_ready: async function(){
      var that = this;
        //举报图片集合
     var reportImg = that.data.imgList;
@@ -765,6 +811,7 @@ Page({
     var qustionSort = this.data.showProblemType;
     // 举报描述
     var desc = this.data.desc;
+  
     if (qustionSort.length < 1) {
       wx.showToast({
         title: '请选择问题类型',
@@ -808,25 +855,25 @@ Page({
     //举报图片
      for (var index = 0; index < reportImg.length; index++) {
       await that.reportImg_syn(reportImg[index]).then((res) => {
-        console.log("举报图片上传完了resourceList:",that.data.resourceList);
+        // console.log("举报图片上传完了resourceList:",that.data.resourceList);
       })
     }
     //举报视频
     for (var index = 0; index < reportVideo.length; index++) {
       await that.reportVideo_syn(reportVideo[index].src).then((res) => {
-        console.log("视频上传完了resourceList:",that.data.resourceList);
+        // console.log("视频上传完了resourceList:",that.data.resourceList);
       });
     }
     //地址图片
      for (var index = 0; index < addsImg.length; index++) {
       await that.addsImg_syn(addsImg[index]).then((res) => {
-        console.log("地址图片上传完了resourceList:",that.data.resourceList);
+        // console.log("地址图片上传完了resourceList:",that.data.resourceList);
       })
     }
     //地址视频
      for (var index = 0; index < addsVideo.length; index++) {
       await that.addsVideo_syn(addsVideo[index].src).then((res) => {
-        console.log("地址视频上传完了resourceList:",that.data.resourceList);
+        // console.log("地址视频上传完了resourceList:",that.data.resourceList);
       })
     }
     wx.hideLoading();
@@ -861,6 +908,7 @@ Page({
   //上传答案/资源
   uploadAnswerTrue:function(){
     var that = this;
+    
     var openid = that.data.openid;
     var projectId  = that.data.projectId;
     var requestUrl  = that.data.requestUrl;
@@ -971,7 +1019,7 @@ Page({
       fail: function(err) {
       },
       complete: () => {
-        console.log('---上传举报图片执行完毕---');
+        // console.log('---上传举报图片执行完毕---');
       }
       })
     })
@@ -1020,7 +1068,7 @@ Page({
       fail: function(err) {
       },
       complete: () => {
-        console.log('上传举报视频执行完毕');
+        // console.log('上传举报视频执行完毕');
       }
 
     })
@@ -1070,7 +1118,7 @@ Page({
       fail: function(err) {
       },
       complete: () => {
-          console.log('---上传地址图片执行完毕---');
+          // console.log('---上传地址图片执行完毕---');
         }
     })
      })
@@ -1119,7 +1167,7 @@ Page({
       fail: function(err) {
       },
       complete: () => {
-          console.log('上传地址视频执行完毕');
+          // console.log('上传地址视频执行完毕');
       }
 
     })

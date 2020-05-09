@@ -44,7 +44,7 @@
 <view class="padding bg-white {{isShow==false?'hide':'show'}}">
   <view class="text-cut padding bg-white radius" style="width:100%">
     <view class="flex flex-wrap">
-      <view class="padding-xs" wx:for="{{showProblemType}}" wx:key wx:if="{{item.name!='gray'}}">
+      <view class="padding-xs" wx:for="{{showProblemType}}" wx:key="index" wx:if="{{item.name!='gray'}}">
         <view class="cu-tag bg-blue {{item.checked==true?'show':'hide'}}">{{item.name}}</view>
       </view>
     </view>
@@ -57,7 +57,7 @@
       <view class="action text-green" bindtap="problemTypeConfirm">确定</view>
     </view>
     <view class="grid col-3 padding-sm">
-      <view wx:for="{{problemType}}" class="padding-xs" wx:key="{{index}}">
+      <view wx:for="{{problemType}}" class="padding-xs" wx:key="index">
         <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" bindtap="ChooseCheckbox" data-value="{{item.id}}"> <view class="box">{{item.name}}1</view>
           <view class="cu-tag sm round {{item.checked?'bg-white text-orange':'bg-orange'}}" wx:if="{{item.hot}}">HOT</view>
         </button>
@@ -72,7 +72,7 @@
       <view class="action text-green" bindtap="problemTypeConfirm">确定</view>
     </view>
     <view class="grid col-3 padding-sm">
-      <view wx:for="{{problemType}}" class="padding-xs" wx:key="{{index}}">
+      <view wx:for="{{problemType}}" class="padding-xs" wx:key="index">
         <button class="cu-btn orange lg block {{item.checked?'bg-orange':'line-orange'}}" bindtap="ChooseCheckbox" data-value="{{item.id}}"> <view class="box">{{item.name}}</view>
           <view class="cu-tag sm round {{item.checked?'bg-white text-orange':'bg-orange'}}" wx:if="{{item.hot}}">HOT</view>
         </button>
@@ -97,13 +97,13 @@
 </view>
 <view class="cu-form-group">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{imgList}}" wx:key="{{index}}" bindtap="ViewImageForreport" data-url="{{imgList[index]}}">
+    <view class="bg-img" wx:for="{{imgList}}" wx:key="index" bindtap="ViewImageForreport" data-url="{{imgList[index]}}">
       <image src='{{imgList[index]}}' mode='aspectFill'></image>
       <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="reportImg">
         <text class="cuIcon-close"></text>
       </view>
     </view>
-    <view class="bg-img" wx:for="{{videoList}}" wx:key="{{index}}" bindtap="ViewVideoForreport" data-url="{{videoList[index]}}"data-index="{{index}}">
+    <view class="bg-img" wx:for="{{videoList}}" wx:key="index" bindtap="ViewVideoForreport" data-url="{{videoList[index]}}"data-index="{{index}}">
       <video id='reportVideo{{index}}' src="{{videoList[index].src}}" poster="{{videoList[index].poster}}" bindfullscreenchange="start"></video>
       <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="reportVideo">
         <text class="cuIcon-close"></text>
@@ -131,14 +131,14 @@
 </view>
 <view class="cu-form-group" hidden="{{addIsShow}}">
   <view class="grid col-4 grid-square flex-sub">
-    <view class="bg-img" wx:for="{{addressImgList}}" wx:key="{{index}}" bindtap="ViewImageForadds" data-url="{{addressImgList[index]}}">
+    <view class="bg-img" wx:for="{{addressImgList}}" wx:key="index" bindtap="ViewImageForadds" data-url="{{addressImgList[index]}}">
       <image src='{{addressImgList[index]}}' mode='aspectFill'></image>
       <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="addsImg">
         <text class="cuIcon-close"></text>
       </view>
     </view>
 
-    <view class="bg-img" wx:for="{{addressVideoList}}" wx:key="{{index}}" bindtap="ViewVideoForadds" data-url="{{addressVideoList[index]}}" data-index="{{index}}">
+    <view class="bg-img" wx:for="{{addressVideoList}}" wx:key="index" bindtap="ViewVideoForadds" data-url="{{addressVideoList[index]}}" data-index="{{index}}">
       <video id='addsVideo{{index}}' src="{{addressVideoList[index].src}}" poster="{{addressVideoList[index].poster}}" bindfullscreenchange="start"></video>
       <view class="cu-tag bg-red" catchtap="DelImg" data-index="{{index}}" data-type="addsVideo">
         <text class="cuIcon-close"></text>

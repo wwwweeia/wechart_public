@@ -31,19 +31,19 @@ Page({
       requestUrl:requestUrl
     })
     console.log("这是啥",requestUrl)
-   var code = wx.getStorageSync('code')
-    console.log("code转过来了吗",code)
-     this.login(code);
+    var govCode = wx.getStorageSync('code')
+    console.log("code转过来了吗", govCode)
+    this.login(govCode);
      wx.clearStorage()
   },
 
 
-login(code){
+  login(govCode){
   // 获取用户信息
     let that = this;
     var requestUrl = that.data.requestUrl;
-    if (!code) {
-      var code='0'
+    if (!govCode) {
+      var govCode='0'
     }
     wx.login({
       success(res) {
@@ -58,8 +58,8 @@ login(code){
               "Content-Type": "application/json"
             },
             data: {
-              // govCode: 'SDHZ',
-               govCode: code,
+              govCode: govCode,
+              // govCode: 'JCS2020',
                code: res.code
             },
             success(res) {
