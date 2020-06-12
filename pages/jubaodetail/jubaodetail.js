@@ -1,4 +1,4 @@
-
+//个人中心页面
 var app = getApp()
 Page({
 
@@ -35,7 +35,7 @@ Page({
     })
     var openid = this.data.openid;
     if(openid != null && openid != ''){
-      console.log("openid有值,查询数据")
+      // console.log("openid有值,查询数据")
       //初始加载待审核
        this.finish(3,openid);
     }else{
@@ -60,7 +60,7 @@ Page({
         backList: [],
         finishList:[]
     })
-    console.log("现在的id",e.currentTarget.dataset.id)
+    // console.log("现在的id",e.currentTarget.dataset.id)
     var openid = this.data.openid;
     if(openid != null && openid != ''){
       // 0整改达标，1未整改，2整改不达标继续整改，3已整改（待审核)
@@ -155,7 +155,7 @@ var requestUrl = that.data.requestUrl;//服务器路径
             maxPageNum: res.data.retObj[0].maxPageNum,
             isNull:''
           })
-          console.log("finishList集合：",that.data.finishList)
+          // console.log("finishList集合：",that.data.finishList)
         }else{
           that.setData({
             isNull: 'true'

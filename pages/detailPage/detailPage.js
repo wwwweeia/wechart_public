@@ -1,3 +1,4 @@
+//任务详情页面
 var app = getApp()
 Page({
   data: {
@@ -64,11 +65,9 @@ var requestUrl = app.globalData.requestUrl;
   },
   //查看 图片 任务图片
   ViewImageForreportTask(e) {
-    console.log("图片数据：", e);
-
-    
+    // console.log("图片数据：", e);
     var index = e.currentTarget.dataset.index;
-     console.log("任务视频数据：", this.data.taskRecord[index].imgSrc);
+    //  console.log("任务视频数据：", this.data.taskRecord[index].imgSrc);
     wx.previewImage({
       urls: this.data.taskRecord[index].imgSrc,
       current: e.currentTarget.dataset.url
@@ -112,7 +111,7 @@ var requestUrl = app.globalData.requestUrl;
       // url: "http://192.168.15.146:8080/home/manage/searchTaskInfo?taskId=" + id,
       success(res) {
         if (res.data.status === "success") {
-          console.log("任务详情：",res.data.retObj)
+          // console.log("任务详情：",res.data.retObj)
           that.setData({
  
             retObj: res.data.retObj,

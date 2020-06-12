@@ -1,4 +1,4 @@
-// pages/menuBack/menuBack.js
+// 测试页面
 Page({
 
   /**
@@ -12,13 +12,13 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    console.log("看看这个：", options)
+    // console.log("看看这个：", options)
         var url =  options.url.toString();
-        console.log("url:",url.length)
+        // console.log("url:",url.length)
         // var code =  url.substr(url.length-4);
          var arr =  url.split("^");
          var code = arr[1].toString();
-        console.log("code：",code)
+        // console.log("code：",code)
   },
 
   /**

@@ -1,4 +1,4 @@
-// pages/swiper/swiper.js
+// 轮播图详情页面
 var app = getApp()
 Page({
 

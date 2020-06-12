@@ -1,4 +1,4 @@
-// pages/success/success.js
+// 举报成功页面
 Page({
 
   /**

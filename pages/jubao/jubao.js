@@ -1,3 +1,4 @@
+//举报上传页面
 const QQMapWX = require('../../libs/qqmap-wx-jssdk.min.js');
 //同步js
 import regeneratorRuntime from '../../libs/regenerator-runtime/runtime.js';
@@ -166,7 +167,7 @@ Page({
         success: (res) => {
           // console.log(res)
           if (res.data.status==="success") {
-            console.log("保存成功")
+            // console.log("保存成功")
           }
         },
         fail: (res) => {
@@ -188,7 +189,7 @@ Page({
         success: function (res) {
           // 用户没有授权成功，不需要改变 isHide 的值
           if (res.confirm) {
-            console.log('用户点击了“返回授权”');
+            // console.log('用户点击了“返回授权”');
           }
         }
       });
@@ -392,7 +393,7 @@ Page({
               showCancel:false,
               success (res) {
                 if (res.confirm) {
-                  console.log('用户点击确定')
+                  // console.log('用户点击确定')
                 } 
               }})
             return
@@ -437,7 +438,7 @@ Page({
         that.setData({
           userCity: UserCity
         })
-        console.log("用户地址：",UserCity)
+        // console.log("用户地址：",UserCity)
         // that.userAndProject();
       }
     })
@@ -496,7 +497,7 @@ Page({
   startRecord() {
     this.ctx.startRecord({
       success: (res) => {
-        console.log('startRecord')
+        // console.log('startRecord')
       }
     })
   },
@@ -511,10 +512,10 @@ Page({
     })
   },
   error(e) {
-    console.log(e.detail)
+    // console.log(e.detail)
   },
   showModal(e) {
-    console.log(e);
+    // console.log(e);
     this.setData({
       modalName: e.currentTarget.dataset.target
     })
@@ -787,7 +788,7 @@ Page({
               showCancel:false,
               success (res) {
                 if (res.confirm) {
-                  console.log('用户点击确定')
+                  // console.log('用户点击确定')
                 } 
               }})
           }else{
@@ -891,8 +892,8 @@ Page({
 
     // 上传成功的资源长度
     var rsLength = that.data.resourceList.length;
-    console.log("上传成功总资源：", rsLength);
-    console.log("本地总资源:", length)
+    // console.log("上传成功总资源：", rsLength);
+    // console.log("本地总资源:", length)
     // 资源全部上传成功 上传答案
     if (length == rsLength) {
       // wx.showToast({
@@ -960,7 +961,7 @@ Page({
       method: 'POST',
       dataType: 'json',
       success(res) {
-          console.log("上传答案结束,",res)
+          // console.log("上传答案结束,",res)
           if (res.data.status==='success') {
               wx.reLaunch({
                 url: "../success/success"
@@ -976,7 +977,7 @@ Page({
       },
       //请求失败
       fail: function(err) {
-        console.log("请求失败：", err)
+        // console.log("请求失败：", err)
       },
       complete: function() {} //请求完成后执行的函数
     })

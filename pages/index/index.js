@@ -1,4 +1,4 @@
-//获取应用实例
+//首页
 // const regeneratorRuntime = require('../utils/runtime.js');
 var app = getApp()
 Page({
@@ -30,7 +30,7 @@ Page({
     this.setData({
       requestUrl:requestUrl
     })
-    console.log("这是啥",requestUrl)
+    // console.log("这是啥",requestUrl)
     var govCode = wx.getStorageSync('code')
     console.log("code转过来了吗", govCode)
     this.login(govCode);
@@ -63,7 +63,7 @@ Page({
                code: res.code
             },
             success(res) {
-               console.log("请求用户：",res)
+              //  console.log("请求用户：",res)
               if (res.data.status == 'success') {
                 var app = getApp();
                 app.openid = res.data.retObj.openid;
@@ -77,9 +77,9 @@ Page({
                 wx.setStorageSync('nickname', app.nickname)
                 wx.setStorageSync('projectLat', app.projectLat)
                 wx.setStorageSync('projectLog', app.projectLog)
-                console.log("这是初始化nickname：", app.nickname)
-                console.log("这是初始化openid：", app.openid)
-                console.log("项目id", res.data.retObj.projectId);
+                // console.log("这是初始化nickname：", app.nickname)
+                // console.log("这是初始化openid：", app.openid)
+                // console.log("项目id", res.data.retObj.projectId);
                
                 //用户没有绑定政府
                 if(res.data.retObj.isGodCode==="false"){
@@ -102,13 +102,13 @@ Page({
                 }
                 
               } else {
-                console.log('error')
+                // console.log('error')
               }
 
             }
           })
         } else {
-          console.log('登录失败！' + res.errMsg)
+          // console.log('登录失败！' + res.errMsg)
         }
       }
     })
@@ -152,7 +152,7 @@ Page({
    */
   getSwiperList() {
     var projectId = wx.getStorageSync('projectId')
-    console.log("项目idsdaddafsfadfsads",projectId)
+    // console.log("项目idsdaddafsfadfsads",projectId)
     // console.log(projectId)
     let that = this;
     var requestUrl = that.data.requestUrl;
@@ -299,7 +299,7 @@ var requestUrl = that.data.requestUrl;
       },
       success(res) {
         if (res.data.status === "success") {
-          console.log("任务列表",res)
+          // console.log("任务列表",res)
           that.setData({
             //1、that.data.taskList  获取当前页面存的taskList数组
             //2、res.data.retObj   获取当前请求得到的taskList数组
@@ -316,7 +316,7 @@ var requestUrl = that.data.requestUrl;
         wx.hideLoading();
       },
       fail: function(err) {
-        console.log('gg')
+        // console.log('gg')
       }, //请求失败
       complete: function() {} //请求完成后执行的函数
     })

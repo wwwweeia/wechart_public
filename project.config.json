@@ -20,7 +20,8 @@
 			"ignore": [],
 			"disablePlugins": [],
 			"outputPath": ""
-		}
+		},
+		"useCompilerModule": false
 	},
 	"compileType": "miniprogram",
 	"libVersion": "2.11.0",
@@ -116,7 +117,7 @@
 					"id": 8,
 					"name": "pages/menuBack/menuBack",
 					"pathName": "pages/menuBack/menuBack",
-					"query": "code=JCS2020",
+					"query": "code=SDHZ",
 					"scene": null
 				},
 				{

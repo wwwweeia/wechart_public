@@ -1,4 +1,4 @@
-
+//我的举报-已完成、已退回任务详情页面
 var app = getApp()
 Page({
   data: {
@@ -38,7 +38,7 @@ Page({
       requestUrl:requestUrl
     })
     var id = answerId.id;
-    console.log("id是:", id)
+    // console.log("id是:", id)
     //获取数据
     that.detail(id);
 

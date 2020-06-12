@@ -1,4 +1,5 @@
 // pages/about/about.js
+//个人中心-关于我们页面
 Page({
 
   /**

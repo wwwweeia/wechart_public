@@ -1,3 +1,4 @@
+//我的举报-待审核、处理中任务详情页面
 var app = getApp()
 Page({
   data: {
@@ -35,7 +36,7 @@ Page({
   onLoad: function(taskId) {
     var that = this;
     var id = taskId.id;
-    console.log("id是：", id)
+    // console.log("id是：", id)
     
 
 var requestUrl = app.globalData.requestUrl;
